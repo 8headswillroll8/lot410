@@ -37,4 +37,8 @@
   body {
     @apply font-sans font-normal text-[20px] text-white md:text-[24px];
   }
+
+  a {
+    @apply underline-offset-6 hover:underline;
+  }
 }
