@@ -1,1 +1,44 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Monument Grotesk";
+  src: url("./assets/fonts/ABCMonumentGroteskTrial-Regular.otf")
+    format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Monument Grotesk";
+  src: url("./assets/fonts/ABCMonumentGroteskTrial-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Oatmeal Sans";
+  src: url("./assets/fonts/Oatmeal Sans.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@theme {
+  --color-brand: #2f00ff;
+
+  --font-sans: "Monument Grotesk", sans-serif;
+  --font-oatmeal: "Oatmeal Sans", sans-serif;
+}
+
+@layer base {
+  h1 {
+    @apply font-oatmeal text-brand;
+  }
+
+  body {
+    @apply font-sans font-normal text-[20px] text-brand md:text-[24px];
+  }
+
+  a {
+    @apply underline-offset-6 hover:underline;
+  }
+}
