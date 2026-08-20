@@ -4,9 +4,60 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./src/assets/icons/gavel.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lot410 | Listing</title>
+    <link rel="stylesheet" href="./src/style.css" />
+    <title>Lot410 | Online student auction</title>
   </head>
   <body>
-    <script type="module" src="/src/main.ts"></script>
+    <header>
+      <div class="mx-auto flex items-center justify-between px-6 py-6">
+        <a href="./">
+          <img
+            class="w-18"
+            src="./src/assets/logo/lot410-logo.svg"
+            alt="LOT410"
+          />
+        </a>
+
+        <button
+          class="md:hidden"
+          id="menu-button"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <img class="w-6" src="./src/assets/icons/hamburger-menu.svg" alt="" />
+        </button>
+
+        <nav class="hidden md:block">
+          <ul class="text-brand flex gap-30">
+            <li><a href="#">Auctions</a></li>
+            <li><a href="#">Log in</a></li>
+            <li><a href="#">Register</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <nav
+        id="mobile-menu"
+        class="fixed inset-0 z-40 hidden bg-brand md:hidden"
+        aria-label="Mobile navigation"
+      >
+        <div class="flex items-start justify-between p-6">
+          <ul>
+            <li><a href="./listings/index.html">Auctions</a></li>
+            <li><a href="./create-listing/index.html">Sell</a></li>
+            <li><a href="./login/index.html">Log in</a></li>
+            <li><a href="./register/index.html">Register</a></li>
+          </ul>
+
+          <button type="button" id="close-button" aria-label="Close menu">
+            <img class="w-6" src="./src/assets/icons/x-white.svg" alt="" />
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <script type="module" src="/src/pages/home.ts"></script>
   </body>
 </html>
