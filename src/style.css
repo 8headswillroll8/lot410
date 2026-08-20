@@ -35,7 +35,7 @@
   }
 
   body {
-    @apply font-sans font-normal text-[20px] text-white md:text-[24px];
+    @apply font-sans font-normal text-[20px] text-brand md:text-[24px];
   }
 
   a {

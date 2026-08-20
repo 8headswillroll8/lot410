@@ -7,72 +7,141 @@
     <link rel="stylesheet" href="./src/style.css" />
     <title>Lot410 | Online student auction</title>
   </head>
-  <body class="flex min-h-screen flex-col">
-    <header>
-      <div class="mx-auto flex items-center justify-between px-6 py-6">
-        <a href="./">
-          <img
-            class="w-18"
-            src="./src/assets/logo/lot410-logo.svg"
-            alt="LOT410"
-          />
-        </a>
 
-        <button
-          class="md:hidden"
-          id="menu-button"
-          type="button"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-        >
-          <img class="w-6" src="./src/assets/icons/hamburger-menu.svg" alt="" />
-        </button>
-
-        <nav class="hidden md:block">
-          <ul class="text-brand flex gap-30">
-            <li><a href="./listings/index.html">Auctions</a></li>
-            <li><a href="./login/index.html">Log in</a></li>
-            <li><a href="./register/index.html">Register</a></li>
-          </ul>
-        </nav>
-      </div>
-
-      <nav
-        id="mobile-menu"
-        class="fixed inset-0 z-40 hidden bg-brand md:hidden"
-        aria-label="Mobile navigation"
-      >
-        <div class="flex h-full flex-col p-6">
-          <div class="flex items-start justify-between">
+  <body>
+    <section id="hero-scroll-section" class="relative h-[350vh]">
+      <div class="sticky top-0 flex h-screen flex-col overflow-hidden">
+        <header>
+          <div class="mx-auto flex items-center justify-between px-6 py-6">
             <a href="./">
               <img
                 class="w-18"
-                src="./src/assets/logo/lot410-logo-white.svg"
+                src="./src/assets/logo/lot410-logo.svg"
                 alt="LOT410"
               />
             </a>
 
-            <button type="button" id="close-button" aria-label="Close menu">
-              <img class="w-6" src="./src/assets/icons/x-white.svg" alt="" />
+            <button
+              class="md:hidden"
+              id="menu-button"
+              type="button"
+              aria-label="Open menu"
+              aria-expanded="false"
+              aria-controls="mobile-menu"
+            >
+              <img
+                class="w-6"
+                src="./src/assets/icons/hamburger-menu.svg"
+                alt=""
+              />
             </button>
+
+            <nav class="hidden md:block">
+              <ul class="flex gap-30 text-brand">
+                <li><a href="./listings/index.html">Auctions</a></li>
+                <li><a href="./login/index.html">Log in</a></li>
+                <li><a href="./register/index.html">Register</a></li>
+              </ul>
+            </nav>
           </div>
 
-          <ul class="flex flex-1 flex-col justify-center text-white">
-            <li><a href="./listings/index.html">Auctions</a></li>
-            <li class="hidden">
-              <a href="./create-listing/index.html">Sell</a>
-            </li>
-            <li><a href="./login/index.html">Log in</a></li>
-            <li><a href="./register/index.html">Register</a></li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-    <main class="flex-1"></main>
+          <nav
+            id="mobile-menu"
+            class="fixed inset-0 z-40 hidden bg-brand md:hidden"
+            aria-label="Mobile navigation"
+          >
+            <div class="flex h-full flex-col p-6">
+              <div class="flex items-start justify-between">
+                <a href="./">
+                  <img
+                    class="w-18"
+                    src="./src/assets/logo/lot410-logo-white.svg"
+                    alt="LOT410"
+                  />
+                </a>
+
+                <button type="button" id="close-button" aria-label="Close menu">
+                  <img
+                    class="w-6"
+                    src="./src/assets/icons/x-white.svg"
+                    alt=""
+                  />
+                </button>
+              </div>
+
+              <ul class="flex flex-1 flex-col justify-center text-white">
+                <li><a href="./listings/index.html">Auctions</a></li>
+
+                <li class="hidden">
+                  <a href="./create-listing/index.html">Sell</a>
+                </li>
+
+                <li><a href="./login/index.html">Log in</a></li>
+                <li><a href="./register/index.html">Register</a></li>
+              </ul>
+            </div>
+          </nav>
+        </header>
+
+        <main class="relative flex-1 overflow-hidden">
+          <h1
+            class="mx-auto my-6 w-full max-w-205.5 text-center text-[108px] leading-none md:mt-30 md:text-[158px]"
+          >
+            Going once, going twice.
+          </h1>
+
+          <div
+            class="mt-12 flex flex-col gap-8 px-6 sm:mt-16 md:mt-50 md:flex-row md:justify-center lg:gap-100"
+          >
+            <p class="max-w-84.5">
+              A student auction for furniture, tech & things worth passing on
+            </p>
+
+            <p class="max-w-84.5 self-end text-right">
+              See something worth keeping, make it yours with a bid.
+            </p>
+          </div>
+
+          <div
+            id="hero-carousel"
+            class="absolute top-10 flex gap-50 md:gap-100 md:top-40"
+          >
+            <img
+              class="h-100 w-auto shrink-0 lg:h-150"
+              src="./src/assets/images/hero-rocking-horse.webp"
+              alt="Rocking horse"
+            />
+
+            <img
+              class="h-100 w-auto shrink-0 lg:h-150"
+              src="./src/assets/images/hero-chair.webp"
+              alt="Chair with leather seat"
+            />
+
+            <img
+              class="h-100 w-auto shrink-0 lg:h-150"
+              src="./src/assets/images/hero-books.webp"
+              alt="Stack of books"
+            />
+
+            <img
+              class="h-100 w-auto shrink-0 lg:h-150"
+              src="./src/assets/images/hero-plant.webp"
+              alt="Green plant in a pot"
+            />
+
+            <img
+              class="h-100 w-auto shrink-0 lg:h-150"
+              src="./src/assets/images/hero-lamp.webp"
+              alt="Ceramic lamp with shade"
+            />
+          </div>
+        </main>
+      </div>
+    </section>
 
     <footer
-      class="text-brand flex flex-col gap-12 px-6 py-6 xl:grid xl:min-h-[320px] xl:grid-cols-12 xl:gap-x-6"
+      class="flex flex-col gap-12 px-6 py-6 text-brand xl:grid xl:min-h-80 xl:grid-cols-12 xl:gap-x-6"
     >
       <div
         class="flex flex-col gap-6 xl:col-span-2 xl:h-full xl:justify-between"
@@ -90,18 +159,18 @@
         </div>
       </div>
 
-      <div class="lg:col-span-2">
+      <div class="xl:col-span-2">
         <p>Questions:</p>
         <p>hello@lot410.no</p>
       </div>
 
-      <div class="lg:col-span-2">
+      <div class="xl:col-span-2">
         <p>Listings:</p>
         <p>listings@lot410.no</p>
       </div>
 
       <div
-        class="lg:col-start-9 lg:col-span-4 lg:flex lg:h-full lg:flex-col lg:justify-between"
+        class="xl:col-start-9 xl:col-span-4 xl:flex xl:h-full xl:flex-col xl:justify-between"
       >
         <p>
           LOT410 is a student-only auction platform for things worth passing on.
@@ -113,6 +182,6 @@
       </div>
     </footer>
 
-    <script type="module" src="/src/pages/home.ts"></script>
+    <script type="module" src="./src/pages/home.ts"></script>
   </body>
 </html>
