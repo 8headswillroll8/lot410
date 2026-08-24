@@ -41,4 +41,8 @@
   a {
     @apply underline-offset-6 hover:underline;
   }
+
+  input {
+    @apply text-brand;
+  }
 }
