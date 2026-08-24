@@ -2,10 +2,168 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="../src/assets/icons/gavel.svg"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../src/style.css" />
     <title>Lot410 | Register</title>
   </head>
-  <body>
-    <script src="./src/pages/register.ts"></script>
+
+  <body class="flex min-h-screen flex-col">
+    <header>
+      <div class="mx-auto flex items-center justify-between px-6 py-6">
+        <a href="../">
+          <img
+            class="w-18"
+            src="../src/assets/logo/lot410-logo.svg"
+            alt="LOT410"
+          />
+        </a>
+
+        <button
+          class="md:hidden"
+          id="menu-button"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <img
+            class="w-6"
+            src="../src/assets/icons/hamburger-menu.svg"
+            alt=""
+          />
+        </button>
+
+        <nav class="hidden md:block">
+          <ul class="flex gap-30 text-brand">
+            <li><a href="../listings/index.html">Auctions</a></li>
+            <li><a href="../login/index.html">Log in</a></li>
+            <li><a href="../register/index.html">Register</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <nav
+        id="mobile-menu"
+        class="fixed inset-0 z-40 hidden bg-brand md:hidden"
+        aria-label="Mobile navigation"
+      >
+        <div class="flex h-full flex-col p-6">
+          <div class="flex items-start justify-between">
+            <a href="./">
+              <img
+                class="w-18"
+                src="../src/assets/logo/lot410-logo-white.svg"
+                alt="LOT410"
+              />
+            </a>
+
+            <button type="button" id="close-button" aria-label="Close menu">
+              <img class="w-6" src="../src/assets/icons/x-white.svg" alt="" />
+            </button>
+          </div>
+
+          <ul class="flex flex-1 flex-col justify-center text-white">
+            <li><a href="../listings/index.html">Auctions</a></li>
+
+            <li class="hidden">
+              <a href="../create-listing/index.html">Sell</a>
+            </li>
+
+            <li><a href="../login/index.html">Log in</a></li>
+            <li><a href="../register/index.html">Register</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex flex-1 justify-center pt-28 md:pt-32">
+      <div class="flex w-full max-w-87.5 flex-col items-center">
+        <h1 class="mb-9 text-[82px] md:text-[92px]">Register</h1>
+
+        <form id="register-form" class="flex w-full flex-col gap-8" novalidate>
+          <!-- email -->
+          <div
+            class="flex gap-4 border-b-2 border-brand pb-2 focus-within:border-dashed"
+          >
+            <img class="w-6" src="../src/assets/icons/mail.svg" alt="" />
+
+            <label for="register-email" class="hidden">Email</label>
+
+            <div class="flex-1">
+              <input
+                class="w-full placeholder:text-brand"
+                type="email"
+                id="register-email"
+                name="register-email"
+                placeholder="Email"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- password -->
+          <div
+            class="flex gap-4 border-b-2 border-brand pb-2 focus-within:border-dashed"
+          >
+            <img class="w-6" src="../src/assets/icons/lock.svg" alt="" />
+
+            <label for="register-password" class="hidden"> Password </label>
+
+            <div class="flex-1">
+              <input
+                class="w-full placeholder:text-brand"
+                type="password"
+                id="register-password"
+                name="register-password"
+                placeholder="Create a password"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- confirm password -->
+          <div
+            class="flex gap-4 border-b-2 border-brand pb-2 focus-within:border-dashed"
+          >
+            <img class="w-6" src="../src/assets/icons/lock.svg" alt="" />
+
+            <label for="register-confirm-password" class="hidden">
+              Confirm password
+            </label>
+
+            <div class="flex-1">
+              <input
+                class="w-full placeholder:text-brand"
+                type="password"
+                id="register-confirm-password"
+                name="register-confirm-password"
+                placeholder="Repeat created password"
+                required
+              />
+            </div>
+          </div>
+
+          <button
+            class="h-12.5 rounded-full bg-brand text-white hover:rounded-none"
+            id="register-button"
+          >
+            Register
+          </button>
+
+          <!-- validation messages -->
+          <div class="gap-2 justify-center hidden" id="register-alert">
+            <img src="../src/assets/icons/alert-circle.svg" alt="" />
+            <p>Oops, that's not a match</p>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script type="module" src="../src/pages/register.ts"></script>
   </body>
 </html>
