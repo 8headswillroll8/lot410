@@ -40,9 +40,9 @@
 
         <nav class="hidden md:block">
           <ul class="flex gap-30 text-brand">
-            <li><a href="./listings/index.html">Auctions</a></li>
-            <li><a href="./login/index.html">Log in</a></li>
-            <li><a href="./register/index.html">Register</a></li>
+            <li><a href="../listings/index.html">Auctions</a></li>
+            <li><a href="../login/index.html">Log in</a></li>
+            <li><a href="../register/index.html">Register</a></li>
           </ul>
         </nav>
       </div>
@@ -85,7 +85,7 @@
       <div class="flex w-full max-w-87.5 flex-col items-center">
         <h1 class="mb-9 text-[82px] md:text-[92px]">Login</h1>
 
-        <form id="login-form" class="flex w-full flex-col gap-8">
+        <form id="login-form" class="flex w-full flex-col gap-8" novalidate>
           <!-- email -->
           <div
             class="flex gap-4 border-b-2 border-brand pb-2 focus-within:border-dashed"
@@ -94,13 +94,14 @@
 
             <label for="login-email" class="hidden">Email</label>
 
-            <div>
+            <div class="flex-1">
               <input
-                class="placeholder:text-brand"
+                class="w-full placeholder:text-brand"
                 type="email"
                 id="login-email"
                 name="login-email"
                 placeholder="Email"
+                required
               />
             </div>
           </div>
@@ -113,13 +114,14 @@
 
             <label for="login-password" class="hidden"> Password </label>
 
-            <div>
+            <div class="flex-1">
               <input
-                class="placeholder:text-brand"
+                class="w-full placeholder:text-brand"
                 type="password"
                 id="login-password"
-                name="password-email"
+                name="login-password"
                 placeholder="Password"
+                required
               />
             </div>
           </div>
@@ -132,7 +134,7 @@
           </button>
 
           <!-- validation messages -->
-          <div class="flex gap-2 justify-center hidden" id="login-alert">
+          <div class="gap-2 justify-center hidden" id="login-alert">
             <img src="../src/assets/icons/alert-circle.svg" alt="" />
             <p>Oops, wrong password</p>
           </div>
