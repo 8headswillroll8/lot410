@@ -35,21 +35,22 @@ loginForm.addEventListener("submit", async (event) => {
   if (email === "") {
     loginAlert.classList.remove("hidden");
     loginAlert.classList.add("flex");
-    loginAlertText.textContent = "You have to put in an email";
+    loginAlertText.textContent = "We need your student email";
     return;
   }
 
   if (!email.endsWith("@stud.noroff.no")) {
     loginAlert.classList.remove("hidden");
     loginAlert.classList.add("flex");
-    loginAlertText.textContent = "You'll need a noroff student email for this";
+    loginAlertText.textContent =
+      "That doesn't look like a Noroff student email";
     return;
   }
 
   if (password === "") {
     loginAlert.classList.remove("hidden");
     loginAlert.classList.add("flex");
-    loginAlertText.textContent = "You have to put in a password";
+    loginAlertText.textContent = "Your password is missing";
     return;
   }
 
