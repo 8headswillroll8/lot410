@@ -1,6 +1,8 @@
 import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu";
 
+import { login } from "../api/auth";
+
 setupMobileMenu();
 
 const loginForm = document.querySelector<HTMLFormElement>("#login-form");
@@ -21,11 +23,14 @@ if (
   throw new Error("Login form elements not found");
 }
 
-loginForm.addEventListener("submit", (event) => {
+loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const email = loginEmail.value.trim().toLowerCase();
   const password = loginPassword.value.trim();
+
+  console.log("EMAIL:", email);
+  console.log("PASSWORD:", password);
 
   if (email === "") {
     loginAlert.classList.remove("hidden");
@@ -48,5 +53,9 @@ loginForm.addEventListener("submit", (event) => {
     return;
   }
 
-  console.log("ready to log in");
+  console.log("VALIDATION PASSED", email, password);
+
+  const data = await login(email, password);
+
+  console.log(data);
 });
