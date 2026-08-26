@@ -12,13 +12,15 @@ const loginPassword =
 const loginAlert = document.querySelector<HTMLDivElement>("#login-alert");
 const loginAlertText =
   document.querySelector<HTMLParagraphElement>("#login-alert-text");
+const loginIcon = document.querySelector<HTMLImageElement>("#login-icon");
 
 if (
   !loginForm ||
   !loginEmail ||
   !loginPassword ||
   !loginAlert ||
-  !loginAlertText
+  !loginAlertText ||
+  !loginIcon
 ) {
   throw new Error("Login form elements not found");
 }
@@ -28,9 +30,6 @@ loginForm.addEventListener("submit", async (event) => {
 
   const email = loginEmail.value.trim().toLowerCase();
   const password = loginPassword.value.trim();
-
-  console.log("EMAIL:", email);
-  console.log("PASSWORD:", password);
 
   if (email === "") {
     loginAlert.classList.remove("hidden");
@@ -54,9 +53,25 @@ loginForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  console.log("VALIDATION PASSED", email, password);
+  try {
+    const data = await login(email, password);
 
-  const data = await login(email, password);
+    const accessToken = data.data.accessToken;
 
-  console.log(data);
+    localStorage.setItem("accessToken", accessToken);
+
+    loginIcon.src = "../src/assets/icons/smiley.svg";
+    loginAlert.classList.remove("hidden");
+    loginAlert.classList.add("flex");
+    loginAlertText.textContent = "Welcome. Let's start the bidding.";
+
+    setTimeout(() => {
+      window.location.href = "../listings/index.html";
+    }, 1500);
+  } catch {
+    loginIcon.src = "../src/assets/icons/alert-circle.svg";
+    loginAlert.classList.remove("hidden");
+    loginAlert.classList.add("flex");
+    loginAlertText.textContent = "";
+  }
 });
