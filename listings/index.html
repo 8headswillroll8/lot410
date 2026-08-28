@@ -8,10 +8,564 @@
       href="../src/assets/icons/gavel.svg"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/style.css" />
+    <link rel="stylesheet" href="../src/style.css" />
     <title>Lot410 | Listings</title>
   </head>
+
   <body>
+    <header>
+      <div class="mx-auto flex items-center justify-between px-6 py-6">
+        <a href="../">
+          <img
+            class="w-18"
+            src="../src/assets/logo/lot410-logo.svg"
+            alt="LOT410"
+          />
+        </a>
+
+        <button
+          class="md:hidden"
+          id="menu-button"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <img
+            class="w-6"
+            src="../src/assets/icons/hamburger-menu.svg"
+            alt=""
+          />
+        </button>
+
+        <nav class="hidden md:block">
+          <ul class="flex gap-30 text-brand">
+            <li><a href="../listings/index.html">Auctions</a></li>
+            <li><a href="../login/index.html">Log in</a></li>
+            <li><a href="../register/index.html">Register</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <nav
+        id="mobile-menu"
+        class="fixed inset-0 z-40 hidden bg-brand md:hidden"
+        aria-label="Mobile navigation"
+      >
+        <div class="flex h-full flex-col p-6">
+          <div class="flex items-start justify-between">
+            <a href="../">
+              <img
+                class="w-18"
+                src="../src/assets/logo/lot410-logo-white.svg"
+                alt="LOT410"
+              />
+            </a>
+
+            <button type="button" id="close-button" aria-label="Close menu">
+              <img class="w-6" src="../src/assets/icons/x-white.svg" alt="" />
+            </button>
+          </div>
+
+          <ul class="flex flex-1 flex-col justify-center text-white">
+            <li><a href="../listings/index.html">Auctions</a></li>
+
+            <li class="hidden">
+              <a href="../create-listing/index.html">Sell</a>
+            </li>
+
+            <li><a href="../login/index.html">Log in</a></li>
+            <li><a href="../register/index.html">Register</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="min-h-screen w-full">
+      <h1 class="text-center mb-12 lg:mb-18">Auctions</h1>
+      <!-- Search -->
+      <div class="mx-6">
+        <form
+          class="flex items-center mx-auto mb-8 gap-3 border-b-2 max-w-100 border-brand lg:mb-12"
+        >
+          <img class="w-6" src="../src/assets/icons/search.svg" alt="" />
+          <label for="listings-search" class="sr-only">Search</label>
+          <input
+            class="flex-1 bg-transparent outline-none placeholder:text-brand"
+            type="search"
+            id="listings-search"
+            name="listings-search"
+            placeholder="Search"
+          />
+          <button type="submit" aria-label="Search">
+            <img class="w-6" src="../src/assets/icons/arrow-right.svg" alt="" />
+          </button>
+        </form>
+      </div>
+      <!-- Filter -->
+      <div class="flex flex-col mb-3 xl:flex-row xl:justify-between xl:mb-6">
+        <div
+          class="grid grid-cols-2 sm:grid-cols-3 gap-2 mx-6 mb-4 xl:grid-cols-6"
+        >
+          <button
+            type="button"
+            aria-pressed="true"
+            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+          >
+            View all
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+          >
+            Furniture
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+          >
+            Tech
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+          >
+            Clothing
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+          >
+            Plants
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+          >
+            Other
+          </button>
+        </div>
+
+        <!-- Sort -->
+        <div class="flex justify-end relative mx-6">
+          <label for="listings-sort-by" class="sr-only">Sort by</label>
+
+          <select
+            name="listings-sort-by"
+            id="listings-sort-by"
+            class="appearance-none pr-7 text-brand outline-none lg:pr-9"
+          >
+            <option value="">Sort by</option>
+            <option value="ending-soon">Ending soon</option>
+            <option value="newest">Newest</option>
+            <option value="most-bids">Most bids</option>
+            <option value="highest-bid">Highest bid</option>
+            <option value="lowest-bid">Lowest bid</option>
+          </select>
+
+          <img
+            class="absolute right-0 top-1 pointer-events-none xl:right-2.25 xl:top-4"
+            src="../src/assets/icons/arrow-down.svg"
+            alt=""
+          />
+        </div>
+      </div>
+      <!-- Grid -->
+      <section
+        class="grid grid-cols-1 gap-y-8 mb-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      >
+        <!-- product -->
+        <article class="text-xl">
+          <a class="group" href="../listing/index.html">
+            <div
+              class="relative aspect-square cursor-[url(../src/assets/icons/gavel-white.svg),pointer]"
+            >
+              <img
+                class="h-full w-full object-cover"
+                src="../src/assets/images/listing-playstation.webp"
+                alt="Vintage point and shoot camera"
+              />
+
+              <div
+                class="absolute inset-0 flex items-center justify-center text-white bg-brand opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              >
+                <span
+                  class="border-[1.5px] rounded-full text-xl border-white px-6 py-2"
+                  >Place bid</span
+                >
+              </div>
+            </div>
+
+            <div class="mx-2 my-2">
+              <div class="flex justify-between">
+                <h2>90s camera</h2>
+                <p>150 credits</p>
+              </div>
+
+              <div class="flex justify-between">
+                <p>1d 7h 10m 56s</p>
+                <p>7 bids</p>
+              </div>
+
+              <div class="flex justify-end lg:hidden">
+                <p class="after:ml-1 after:text-2xl after:content-['↗']">
+                  VIEW LOT
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+        <!-- product -->
+        <article class="text-xl">
+          <a class="group" href="../listing/index.html">
+            <div
+              class="relative aspect-square cursor-[url(../src/assets/icons/gavel-white.svg),pointer]"
+            >
+              <img
+                class="h-full w-full object-cover"
+                src="../src/assets/images/listing-caps.webp"
+                alt="Vintage point and shoot camera"
+              />
+
+              <div
+                class="absolute inset-0 flex items-center justify-center text-white bg-brand opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              >
+                <span
+                  class="border-[1.5px] rounded-full text-xl border-white px-6 py-2"
+                  >Place bid</span
+                >
+              </div>
+            </div>
+
+            <div class="mx-2 my-2">
+              <div class="flex justify-between">
+                <h2>90s camera</h2>
+                <p>150 credits</p>
+              </div>
+
+              <div class="flex justify-between">
+                <p>1d 7h 10m 56s</p>
+                <p>7 bids</p>
+              </div>
+
+              <div class="flex justify-end lg:hidden">
+                <p class="after:ml-1 after:text-2xl after:content-['↗']">
+                  VIEW LOT
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+        <!-- product -->
+        <article class="text-xl">
+          <a class="group" href="../listing/index.html">
+            <div
+              class="relative aspect-square cursor-[url(../src/assets/icons/gavel-white.svg),pointer]"
+            >
+              <img
+                class="h-full w-full object-cover"
+                src="../src/assets/images/listing-plant.webp"
+                alt="Vintage point and shoot camera"
+              />
+
+              <div
+                class="absolute inset-0 flex items-center justify-center text-white bg-brand opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              >
+                <span
+                  class="border-[1.5px] rounded-full text-xl border-white px-6 py-2"
+                  >Place bid</span
+                >
+              </div>
+            </div>
+
+            <div class="mx-2 my-2">
+              <div class="flex justify-between">
+                <h2>90s camera</h2>
+                <p>150 credits</p>
+              </div>
+
+              <div class="flex justify-between">
+                <p>1d 7h 10m 56s</p>
+                <p>7 bids</p>
+              </div>
+
+              <div class="flex justify-end lg:hidden">
+                <p class="after:ml-1 after:text-2xl after:content-['↗']">
+                  VIEW LOT
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+        <!-- product -->
+        <article class="text-xl">
+          <a class="group" href="../listing/index.html">
+            <div
+              class="relative aspect-square cursor-[url(../src/assets/icons/gavel-white.svg),pointer]"
+            >
+              <img
+                class="h-full w-full object-cover"
+                src="../src/assets/images/listing-gameboy.webp"
+                alt="Vintage point and shoot camera"
+              />
+
+              <div
+                class="absolute inset-0 flex items-center justify-center text-white bg-brand opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              >
+                <span
+                  class="border-[1.5px] rounded-full text-xl border-white px-6 py-2"
+                  >Place bid</span
+                >
+              </div>
+            </div>
+
+            <div class="mx-2 my-2">
+              <div class="flex justify-between">
+                <h2>90s camera</h2>
+                <p>150 credits</p>
+              </div>
+
+              <div class="flex justify-between">
+                <p>1d 7h 10m 56s</p>
+                <p>7 bids</p>
+              </div>
+
+              <div class="flex justify-end lg:hidden">
+                <p class="after:ml-1 after:text-2xl after:content-['↗']">
+                  VIEW LOT
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+        <!-- product -->
+        <article class="text-xl">
+          <a class="group" href="../listing/index.html">
+            <div
+              class="relative aspect-square cursor-[url(../src/assets/icons/gavel-white.svg),pointer]"
+            >
+              <img
+                class="h-full w-full object-cover"
+                src="../src/assets/images/listing-bag.webp"
+                alt="Vintage point and shoot camera"
+              />
+
+              <div
+                class="absolute inset-0 flex items-center justify-center text-white bg-brand opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              >
+                <span
+                  class="border-[1.5px] rounded-full text-xl border-white px-6 py-2"
+                  >Place bid</span
+                >
+              </div>
+            </div>
+
+            <div class="mx-2 my-2">
+              <div class="flex justify-between">
+                <h2>90s camera</h2>
+                <p>150 credits</p>
+              </div>
+
+              <div class="flex justify-between">
+                <p>1d 7h 10m 56s</p>
+                <p>7 bids</p>
+              </div>
+
+              <div class="flex justify-end lg:hidden">
+                <p class="after:ml-1 after:text-2xl after:content-['↗']">
+                  VIEW LOT
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+        <!-- product -->
+        <article class="text-xl">
+          <a class="group" href="../listing/index.html">
+            <div
+              class="relative aspect-square cursor-[url(../src/assets/icons/gavel-white.svg),pointer]"
+            >
+              <img
+                class="h-full w-full object-cover"
+                src="../src/assets/images/listing-art.webp"
+                alt="Vintage point and shoot camera"
+              />
+
+              <div
+                class="absolute inset-0 flex items-center justify-center text-white bg-brand opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              >
+                <span
+                  class="border-[1.5px] rounded-full text-xl border-white px-6 py-2"
+                  >Place bid</span
+                >
+              </div>
+            </div>
+
+            <div class="mx-2 my-2">
+              <div class="flex justify-between">
+                <h2>90s camera</h2>
+                <p>150 credits</p>
+              </div>
+
+              <div class="flex justify-between">
+                <p>1d 7h 10m 56s</p>
+                <p>7 bids</p>
+              </div>
+
+              <div class="flex justify-end lg:hidden">
+                <p class="after:ml-1 after:text-2xl after:content-['↗']">
+                  VIEW LOT
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+        <!-- product -->
+        <article class="text-xl">
+          <a class="group" href="../listing/index.html">
+            <div
+              class="relative aspect-square cursor-[url(../src/assets/icons/gavel-white.svg),pointer]"
+            >
+              <img
+                class="h-full w-full object-cover"
+                src="../src/assets/images/listing-leather-chair.webp"
+                alt="Vintage point and shoot camera"
+              />
+
+              <div
+                class="absolute inset-0 flex items-center justify-center text-white bg-brand opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              >
+                <span
+                  class="border-[1.5px] rounded-full text-xl border-white px-6 py-2"
+                  >Place bid</span
+                >
+              </div>
+            </div>
+
+            <div class="mx-2 my-2">
+              <div class="flex justify-between">
+                <h2>90s camera</h2>
+                <p>150 credits</p>
+              </div>
+
+              <div class="flex justify-between">
+                <p>1d 7h 10m 56s</p>
+                <p>7 bids</p>
+              </div>
+
+              <div class="flex justify-end lg:hidden">
+                <p class="after:ml-1 after:text-2xl after:content-['↗']">
+                  VIEW LOT
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+        <!-- product -->
+        <article class="text-xl">
+          <a class="group" href="../listing/index.html">
+            <div
+              class="relative aspect-square cursor-[url(../src/assets/icons/gavel-white.svg),pointer]"
+            >
+              <img
+                class="h-full w-full object-cover"
+                src="../src/assets/images/listing-camera.webp"
+                alt="Vintage point and shoot camera"
+              />
+
+              <div
+                class="absolute inset-0 flex items-center justify-center text-white bg-brand opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              >
+                <span
+                  class="border-[1.5px] rounded-full text-xl border-white px-6 py-2"
+                  >Place bid</span
+                >
+              </div>
+            </div>
+
+            <div class="mx-2 my-2">
+              <div class="flex justify-between">
+                <h2>90s camera</h2>
+                <p>150 credits</p>
+              </div>
+
+              <div class="flex justify-between">
+                <p>1d 7h 10m 56s</p>
+                <p>7 bids</p>
+              </div>
+
+              <div class="flex justify-end lg:hidden">
+                <p class="after:ml-1 after:text-2xl after:content-['↗']">
+                  VIEW LOT
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      </section>
+
+      <!-- Alert messages -->
+      <div class="hidden items-start gap-2" id="listings-alert">
+        <img
+          id="listings-icon"
+          class="mt-1 w-7 md:mt-2"
+          src="../src/assets/icons/awkward.svg"
+          alt=""
+        />
+        <p id="listings-alert-text">
+          Well, this is awkward. We couldn't load the listings. Try again.
+        </p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="flex flex-col gap-12 px-6 py-6 text-brand xl:grid xl:min-h-80 xl:grid-cols-12 xl:gap-x-6"
+    >
+      <div
+        class="flex flex-col gap-6 xl:col-span-2 xl:h-full xl:justify-between"
+      >
+        <nav class="flex flex-col">
+          <a href="../listings/index.html">Auctions</a>
+          <a href="../login/index.html">Log in</a>
+          <a href="../register/index.html">Register</a>
+          <a href="#">Terms</a>
+        </nav>
+
+        <div class="flex flex-col">
+          <a href="#">Newsletter</a>
+          <a href="#">Instagram</a>
+        </div>
+      </div>
+
+      <div class="xl:col-span-2">
+        <p>Questions:</p>
+        <p>hello@lot410.no</p>
+      </div>
+
+      <div class="xl:col-span-2">
+        <p>Listings:</p>
+        <p>listings@lot410.no</p>
+      </div>
+
+      <div
+        class="xl:col-start-9 xl:col-span-4 xl:flex xl:h-full xl:flex-col xl:justify-between"
+      >
+        <p>
+          LOT410 is a student-only auction platform for things worth passing on.
+          List what you no longer need, bid on what you want, and let the
+          highest bid take it.
+        </p>
+
+        <p>© 2026 LOT410. All rights reserved.</p>
+      </div>
+    </footer>
+
     <script type="module" src="../src/pages/listings.ts"></script>
   </body>
 </html>
