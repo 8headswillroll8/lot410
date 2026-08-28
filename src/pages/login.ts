@@ -63,7 +63,7 @@ loginForm.addEventListener("submit", async (event) => {
     loginIcon.src = "../src/assets/icons/smiley.svg";
     loginAlert.classList.remove("hidden");
     loginAlert.classList.add("flex");
-    loginAlertText.textContent = "Welcome. Let's start the bidding.";
+    loginAlertText.textContent = "Welcome. Let the bidding begin.";
 
     setTimeout(() => {
       window.location.href = "../listings/index.html";
@@ -72,6 +72,6 @@ loginForm.addEventListener("submit", async (event) => {
     loginIcon.src = "../src/assets/icons/alert-circle.svg";
     loginAlert.classList.remove("hidden");
     loginAlert.classList.add("flex");
-    loginAlertText.textContent = "";
+    loginAlertText.textContent = "Nope. Email or password isn't right.";
   }
 });

@@ -31,7 +31,7 @@
 
 @layer base {
   h1 {
-    @apply font-oatmeal text-brand;
+    @apply font-oatmeal text-brand text-[82px] md:text-[92px];
   }
 
   body {
