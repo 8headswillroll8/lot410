@@ -2,11 +2,224 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="../src/assets/icons/gavel.svg"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/style.css" />
-    <title>Lot410 | Listing</title>
+    <link rel="stylesheet" href="../src/style.css" />
+    <title>Lot410 | Listings</title>
   </head>
+
   <body>
-    <script src="./src/pages/listing.ts"></script>
+    <header>
+      <div class="mx-auto flex items-center justify-between px-6 py-6">
+        <a href="../">
+          <img
+            class="w-18"
+            src="../src/assets/logo/lot410-logo.svg"
+            alt="LOT410"
+          />
+        </a>
+
+        <button
+          class="md:hidden"
+          id="menu-button"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <img
+            class="w-6"
+            src="../src/assets/icons/hamburger-menu.svg"
+            alt=""
+          />
+        </button>
+
+        <nav class="hidden md:block">
+          <ul class="flex gap-30 text-brand">
+            <li><a href="../listings/index.html">Auctions</a></li>
+            <li><a href="../login/index.html">Log in</a></li>
+            <li><a href="../register/index.html">Register</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <nav
+        id="mobile-menu"
+        class="fixed inset-0 z-40 hidden bg-brand md:hidden"
+        aria-label="Mobile navigation"
+      >
+        <div class="flex h-full flex-col p-6">
+          <div class="flex items-start justify-between">
+            <a href="../">
+              <img
+                class="w-18"
+                src="../src/assets/logo/lot410-logo-white.svg"
+                alt="LOT410"
+              />
+            </a>
+
+            <button type="button" id="close-button" aria-label="Close menu">
+              <img class="w-6" src="../src/assets/icons/x-white.svg" alt="" />
+            </button>
+          </div>
+
+          <ul class="flex flex-1 flex-col justify-center text-white">
+            <li><a href="../listings/index.html">Auctions</a></li>
+
+            <li class="hidden">
+              <a href="../create-listing/index.html">Sell</a>
+            </li>
+
+            <li><a href="../login/index.html">Log in</a></li>
+            <li><a href="../register/index.html">Register</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="min-h-screen w-full">
+      <article class="mb-8 flex flex-col md:flex-row md:items-start">
+        <div class="relative aspect-square md:w-1/2">
+          <img
+            class="w-full h-full object-cover"
+            src="../src/assets/images/listing-caps.webp"
+            alt="Black vintage caps with white geometrical logo"
+          />
+          <a href="../create-listing/index.html" hidden>
+            <img
+              class="absolute top-3 right-3"
+              src="../src/assets/icons/edit-circle.svg"
+              alt=""
+            />
+          </a>
+        </div>
+
+        <div class="md:w-1/2">
+          <div class="mx-6 lg:mx-15">
+            <h1 class="mb-6 text-[54px] lg:text-[64px]">Vintage caps</h1>
+            <p class="mb-12 text-pretty">
+              Black vintage cap with embroidered detail. Picked it up
+              second-hand, wore it approximately three times, and now it
+              deserves a more committed owner. Adjustable at the back and in
+              good condition.
+            </p>
+
+            <p class="flex items-start gap-3">
+              <img
+                class="w-4.5 translate-y-2"
+                src="../src/assets/icons/coin-stack.svg"
+                alt=""
+              />Alex bid 80 credits → 2 min ago
+            </p>
+
+            <p class="flex gap-3">
+              <img class="w-5" src="../src/assets/icons/plus.svg" alt="" />3
+              bids and counting
+            </p>
+            <p class="flex gap-3 mb-12">
+              <img src="../src/assets/icons/hourglass.svg" alt="" />48m 23s left
+            </p>
+          </div>
+
+          <div class="flex mx-6 lg:mx-15">
+            <form class="flex flex-col w-full">
+              <div class="flex flex-row mb-4 border-b-2 xl:mb-8">
+                <label for="listing-bid" class="sr-only">Place bid here</label>
+                <img class="w-7" src="../src/assets/icons/gavel.svg" alt="" />
+                <input
+                  class="flex-1 bg-transparent outline-none placeholder:text-brand"
+                  type="number"
+                  id="listing-bid"
+                  name="listing-bid"
+                  placeholder="Your bid here, 81 or more"
+                />
+              </div>
+              <button
+                class="h-12.5 rounded-full bg-brand text-white hover:rounded-none"
+                type="submit"
+              >
+                Place bid
+              </button>
+            </form>
+          </div>
+        </div>
+      </article>
+
+      <section class="text-center mb-15">
+        <h2 class="mb-2">Bid activity</h2>
+        <div class="flex justify-center gap-2">
+          <img src="../src/assets/icons/trophy.svg" alt="" />
+          <p>Alex bid 80 credits → 2 min ago</p>
+        </div>
+        <p class="opacity-40">Mira bid 65 credits → 11 min ago</p>
+        <p class="opacity-40">Alex bid 40 credits → 18 min ago</p>
+      </section>
+
+      <!-- Alert messages -->
+      <div
+        class="hidden items-start gap-2"
+        id="listings-alert"
+        aria-live="polite"
+      >
+        <img
+          id="listings-icon"
+          class="mt-1 w-7 md:mt-2"
+          src="../src/assets/icons/awkward.svg"
+          alt=""
+        />
+        <p id="listings-alert-text">
+          Well, this is awkward. We couldn't load the listing. Try again.
+        </p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="flex flex-col gap-12 px-6 py-6 text-brand xl:grid xl:min-h-80 xl:grid-cols-12 xl:gap-x-6"
+    >
+      <div
+        class="flex flex-col gap-6 xl:col-span-2 xl:h-full xl:justify-between"
+      >
+        <nav class="flex flex-col">
+          <a href="../listings/index.html">Auctions</a>
+          <a href="../login/index.html">Log in</a>
+          <a href="../register/index.html">Register</a>
+          <a href="#">Terms</a>
+        </nav>
+
+        <div class="flex flex-col">
+          <a href="#">Newsletter</a>
+          <a href="#">Instagram</a>
+        </div>
+      </div>
+
+      <div class="xl:col-span-2">
+        <p>Questions:</p>
+        <p>hello@lot410.no</p>
+      </div>
+
+      <div class="xl:col-span-2">
+        <p>Listings:</p>
+        <p>listings@lot410.no</p>
+      </div>
+
+      <div
+        class="xl:col-start-9 xl:col-span-4 xl:flex xl:h-full xl:flex-col xl:justify-between"
+      >
+        <p>
+          LOT410 is a student-only auction platform for things worth passing on.
+          List what you no longer need, bid on what you want, and let the
+          highest bid take it.
+        </p>
+
+        <p>© 2026 LOT410. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="../src/pages/listing.ts"></script>
   </body>
 </html>
