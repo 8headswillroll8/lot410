@@ -2,11 +2,318 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="../src/assets/icons/gavel.svg"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/style.css" />
+    <link rel="stylesheet" href="../src/style.css" />
     <title>Lot410 | Profile</title>
   </head>
+
   <body>
-    <script src="./src/pages/profile.ts"></script>
+    <header>
+      <div class="mx-auto flex items-center justify-between px-6 py-6">
+        <a href="../">
+          <img
+            class="w-18"
+            src="../src/assets/logo/lot410-logo.svg"
+            alt="LOT410"
+          />
+        </a>
+
+        <button
+          class="md:hidden"
+          id="menu-button"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <img
+            class="w-6"
+            src="../src/assets/icons/hamburger-menu.svg"
+            alt=""
+          />
+        </button>
+
+        <nav class="hidden md:block">
+          <ul class="flex gap-30 text-brand">
+            <li><a href="../listings/index.html">Auctions</a></li>
+            <li><a href="../login/index.html">Log in</a></li>
+            <li><a href="../register/index.html">Register</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <nav
+        id="mobile-menu"
+        class="fixed inset-0 z-40 hidden bg-brand md:hidden"
+        aria-label="Mobile navigation"
+      >
+        <div class="flex h-full flex-col p-6">
+          <div class="flex items-start justify-between">
+            <a href="../">
+              <img
+                class="w-18"
+                src="../src/assets/logo/lot410-logo-white.svg"
+                alt="LOT410"
+              />
+            </a>
+
+            <button type="button" id="close-button" aria-label="Close menu">
+              <img class="w-6" src="../src/assets/icons/x-white.svg" alt="" />
+            </button>
+          </div>
+
+          <ul class="flex flex-1 flex-col justify-center text-white">
+            <li><a href="../listings/index.html">Auctions</a></li>
+
+            <li class="hidden">
+              <a href="../create-listing/index.html">Sell</a>
+            </li>
+
+            <li><a href="../login/index.html">Log in</a></li>
+            <li><a href="../register/index.html">Register</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="min-h-screen w-full">
+      <!-- Shared profile width -->
+      <div class="mx-auto w-full max-w-250">
+        <!-- Profile -->
+        <section>
+          <!-- Header -->
+          <div class="relative">
+            <img
+              class="min-h-62.5 w-full object-cover"
+              src="../src/assets/images/header.svg"
+              alt="Grey gradient"
+            />
+
+            <button class="absolute right-4 bottom-4" type="button">
+              <img src="../src/assets/icons/edit.svg" alt="" />
+            </button>
+
+            <!-- Avatar -->
+            <div class="absolute left-5 bottom-0 w-30 translate-y-5 md:w-50">
+              <img
+                class="aspect-square w-full rounded-full object-cover"
+                src="../src/assets/images/profile-avatar.webp"
+                alt="Profile picture of Nicco Dahl"
+              />
+            </div>
+          </div>
+
+          <!-- Profile info -->
+          <div class="mx-6 flex flex-col pt-8 sm:flex-row sm:justify-between">
+            <!-- Info -->
+            <div>
+              <h1 class="font-sans text-[20px] font-normal md:text-[24px]">
+                Nicco Dahl
+              </h1>
+              <p>nicco.dahl@stud.noroff.no</p>
+            </div>
+
+            <!-- Credits -->
+            <div class="mt-5 sm:mt-0">
+              <p>Credits</p>
+              <div class="flex">
+                <img
+                  class="w-6"
+                  src="../src/assets/icons/arrow-right.svg"
+                  alt=""
+                />
+                <p>1,240</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Profile content -->
+        <section class="mt-8 flex flex-col gap-4">
+          <!-- Content tabs -->
+          <div class="mx-6 flex gap-5">
+            <button
+              id="current-listings-button"
+              class="underline-offset-6 hover:underline"
+              type="button"
+            >
+              Current listings
+            </button>
+
+            <span aria-hidden="true">|</span>
+
+            <button
+              id="bidding-history-button"
+              class="underline-offset-6 hover:underline"
+              type="button"
+            >
+              Bidding history
+            </button>
+          </div>
+
+          <!-- Filters -->
+          <div class="mb-3 flex flex-col xl:mb-6">
+            <div class="mx-6 mb-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
+              <button
+                type="button"
+                data-filter="all"
+                aria-pressed="true"
+                class="min-w-30 rounded-full border-2 hover:border-brand hover:bg-brand hover:text-white lg:px-6"
+              >
+                View all
+              </button>
+
+              <button
+                type="button"
+                data-filter="active"
+                aria-pressed="false"
+                class="min-w-30 rounded-full border-2 hover:border-brand hover:bg-brand hover:text-white lg:px-6"
+              >
+                Active
+              </button>
+
+              <button
+                type="button"
+                data-filter="ended"
+                aria-pressed="false"
+                class="min-w-30 rounded-full border-2 hover:border-brand hover:bg-brand hover:text-white lg:px-6"
+              >
+                Ended
+              </button>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div
+            class="hidden items-start gap-2 mx-6 w-full max-w-250 md:mx-0"
+            id="profile-empty-state"
+          >
+            <img
+              id="profile-empty-state-icon"
+              class="mt-1 w-7 md:mt-2"
+              src="../src/assets/icons/wink.svg"
+              alt=""
+            />
+            <p id="profile-empty-state-text">
+              You haven't listed anything yet.
+            </p>
+          </div>
+
+          <!-- listing -->
+          <div id="profile-listings">
+            <article
+              class="grid grid-cols-2 gap-y-3 border-b border-brand pb-6 mx-6 text-[16px] sm:grid-cols-3 md:grid-cols-6 md:mx-0 md:items-center"
+            >
+              <div class="group relative w-19.25">
+                <img
+                  class="w-full h-full aspect-square object-cover"
+                  src="../src/assets/images/listing-playstation.webp"
+                  alt="Playstation"
+                />
+
+                <!-- Blue overlay -->
+                <div
+                  class="absolute inset-0 bg-brand opacity-0 transition-opacity group-hover:opacity-100"
+                ></div>
+
+                <img
+                  class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  src="../src/assets/icons/edit-circle.svg"
+                  alt=""
+                />
+              </div>
+
+              <div>
+                <p class="font-bold">Item</p>
+                <p>Playstation</p>
+              </div>
+
+              <div>
+                <p class="font-bold">Ends in</p>
+                <p>1d 11h 52m 28s</p>
+              </div>
+
+              <div>
+                <p class="font-bold">Current bid</p>
+                <p>350 credits</p>
+              </div>
+
+              <div>
+                <p class="font-bold">Bids</p>
+                <p>8 bids</p>
+              </div>
+
+              <div>
+                <p class="font-bold">Status</p>
+                <p>Listing active</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Alert messages -->
+        <div class="hidden items-start gap-2" id="profile-alert">
+          <img
+            id="profile-alert-icon"
+            class="mt-1 w-7 md:mt-2"
+            src="../src/assets/icons/awkward.svg"
+            alt=""
+          />
+          <p id="profile-alert-text">
+            Well, this is awkward. We couldn't load your profile. Try again.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="flex flex-col gap-12 px-6 py-6 text-brand xl:grid xl:min-h-80 xl:grid-cols-12 xl:gap-x-6"
+    >
+      <div
+        class="flex flex-col gap-6 xl:col-span-2 xl:h-full xl:justify-between"
+      >
+        <nav class="flex flex-col">
+          <a href="../listings/index.html">Auctions</a>
+          <a href="../login/index.html">Log in</a>
+          <a href="../register/index.html">Register</a>
+          <a href="#">Terms</a>
+        </nav>
+
+        <div class="flex flex-col">
+          <a href="#">Newsletter</a>
+          <a href="#">Instagram</a>
+        </div>
+      </div>
+
+      <div class="xl:col-span-2">
+        <p>Questions:</p>
+        <p>hello@lot410.no</p>
+      </div>
+
+      <div class="xl:col-span-2">
+        <p>Listings:</p>
+        <p>listings@lot410.no</p>
+      </div>
+
+      <div
+        class="xl:col-start-9 xl:col-span-4 xl:flex xl:h-full xl:flex-col xl:justify-between"
+      >
+        <p>
+          LOT410 is a student-only auction platform for things worth passing on.
+          List what you no longer need, bid on what you want, and let the
+          highest bid take it.
+        </p>
+
+        <p>© 2026 LOT410. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="./src/pages/profile.ts"></script>
   </body>
 </html>
