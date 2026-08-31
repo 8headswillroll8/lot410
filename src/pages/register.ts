@@ -1,7 +1,9 @@
 import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu.ts";
 import { register } from "../api/auth.ts";
+import { renderHeader } from "../components/header";
 
+renderHeader();
 setupMobileMenu();
 
 const registerForm = document.querySelector<HTMLFormElement>("#register-form");
