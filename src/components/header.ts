@@ -1,3 +1,5 @@
+import { logout } from "../utils/logout.ts";
+
 const header = document.querySelector("header");
 const baseURL = import.meta.env.BASE_URL;
 
@@ -61,6 +63,12 @@ export function renderHeader() {
             <a href="${baseURL}create-listing/index.html">Sell</a>
           </li>
 
+          <li class="auth-logged-in hidden">
+            <button type="button" class="underline-offset-6 hover:underline logout-btn">
+              Log out
+            </button>
+          </li>
+          
           <li id="desktop-user-summary" class="auth-logged-in hidden">
             <div class="flex items-center gap-1">
               <img class="w-4" src="${baseURL}src/assets/icons/coin-stack.svg" alt="" />
@@ -75,6 +83,7 @@ export function renderHeader() {
               </a>
             </div>
           </li>
+
 
           <!-- Logged out -->
           <li id="desktop-login-link" class="auth-logged-out">
@@ -127,6 +136,12 @@ export function renderHeader() {
             <a href="${baseURL}profile/index.html">Profile</a>
           </li>
 
+          <li class="auth-logged-in hidden">
+            <button type="button" class="underline-offset-6 hover:underline logout-btn">
+              Log out
+            </button>
+          </li>
+
           <!-- Logged out -->
           <li id="mobile-login-link" class="auth-logged-out">
             <a href="${baseURL}login/index.html">Log in</a>
@@ -156,4 +171,10 @@ export function renderHeader() {
       element.classList.add("hidden");
     });
   }
+
+  const logoutBtns = document.querySelectorAll(".logout-btn");
+
+  logoutBtns.forEach((button) => {
+    button.addEventListener("click", logout);
+  });
 }
