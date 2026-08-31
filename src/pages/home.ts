@@ -1,6 +1,8 @@
 import "../style.css";
-import { setupMobileMenu } from "../components/mobileMenu";
 import { setupHeroCarousel } from "../components/heroCarousel";
+import { renderHeader } from "../components/header";
+import { setupMobileMenu } from "../components/mobileMenu";
 
-setupMobileMenu();
 setupHeroCarousel();
+renderHeader();
+setupMobileMenu();

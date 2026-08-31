@@ -1,8 +1,9 @@
 import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu";
-
+import { renderHeader } from "../components/header";
 import { login } from "../api/auth";
 
+renderHeader();
 setupMobileMenu();
 
 const loginForm = document.querySelector<HTMLFormElement>("#login-form");
