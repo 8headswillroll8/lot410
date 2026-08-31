@@ -12,11 +12,3 @@ export async function apiRequest(endpoint: string, options: RequestInit) {
 
   return data;
 }
-
-// JS object → JSON text
-// JSON.stringify()
-
-// JSON response → JS data
-// response.json()
-
-// Register → Login → Store authentication → Authenticated requests → Logout
