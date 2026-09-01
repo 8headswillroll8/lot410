@@ -29,8 +29,29 @@ function renderListings(listings: Listing[]) {
 
     const imageUrl =
       listing.media[0]?.url ?? `${baseURL}src/assets/images/fallback.svg`;
-
     const imageAlt = listing.media[0]?.alt ?? listing.title;
+
+    const endTime = new Date(listing.endsAt);
+    const now = new Date();
+
+    const timeLeft = endTime.getTime() - now.getTime();
+    const totalSeconds = Math.floor(timeLeft / 1000);
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const totalHours = Math.floor(totalMinutes / 60);
+    const totalDays = Math.floor(totalHours / 24);
+
+    const minutes = Math.floor(totalMinutes % 60);
+    const hours = Math.floor(totalHours % 24);
+
+    let timeDisplay;
+
+    if (timeLeft < 0) {
+      timeDisplay = "Ended";
+    }
+
+    if (timeLeft > 0) {
+      timeDisplay = `${totalDays}d ${hours}h ${minutes}m`;
+    }
 
     grid.innerHTML += `
       <article class="text-xl">
@@ -62,7 +83,7 @@ function renderListings(listings: Listing[]) {
             </div>
 
             <div class="flex justify-between">
-              <p>${listing.endsAt}</p>
+              <p class="listing-time">${timeDisplay}</p>
               <p>${highestCredit} credits</p>
             </div>
 
