@@ -3,6 +3,7 @@ import { setupMobileMenu } from "../components/mobileMenu";
 import { renderHeader } from "../components/header";
 import { renderFooter } from "../components/footer";
 import { getListings } from "../api/listings";
+import type { Listing } from "../types/listings";
 
 renderFooter();
 renderHeader();
@@ -17,7 +18,7 @@ async function loadListings() {
   renderListings(data.data);
 }
 
-function renderListings(listings) {
+function renderListings(listings: Listing[]) {
   if (!grid) {
     throw new Error("Listings element not found");
   }
@@ -38,7 +39,7 @@ function renderListings(listings) {
             class="relative aspect-square cursor-[url(${baseURL}src/assets/icons/gavel-white.svg),pointer]"
           >
             <img
-              class="h-full w-full object-cover"
+              class="listing-image h-full w-full object-cover"
               src="${imageUrl}"
               alt="${imageAlt}"
             />
@@ -74,6 +75,14 @@ function renderListings(listings) {
         </a>
       </article>
     `;
+  });
+
+  const images = document.querySelectorAll<HTMLImageElement>(".listing-image");
+
+  images.forEach((image) => {
+    image.addEventListener("error", () => {
+      image.src = `${baseURL}src/assets/images/fallback.jpg`;
+    });
   });
 }
 
