@@ -45,4 +45,8 @@
   input {
     @apply text-brand;
   }
+
+  .listing-image-container {
+    cursor: url(../src/assets/icons/gavel-white.svg), pointer;
+  }
 }

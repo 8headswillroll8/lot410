@@ -53,11 +53,17 @@ function renderListings(listings: Listing[]) {
       timeDisplay = `${totalDays}d ${hours}h ${minutes}m`;
     }
 
+    let titleDisplay = listing.title;
+
+    if (titleDisplay.length > 15) {
+      titleDisplay = titleDisplay.slice(0, 15) + "...";
+    }
+
     grid.innerHTML += `
       <article class="text-xl">
         <a class="group" href="${baseURL}listing/index.html">
           <div
-            class="relative aspect-square cursor-[url(${baseURL}src/assets/icons/gavel-white.svg),pointer]"
+            class="listing-image-container relative aspect-square"
           >
             <img
               class="listing-image h-full w-full object-cover"
@@ -78,7 +84,7 @@ function renderListings(listings: Listing[]) {
 
           <div class="mx-2 my-2">
             <div class="flex justify-between">
-              <h2>${listing.title}</h2>
+              <h2>${titleDisplay}</h2>
               <p>${listing._count.bids} bids</p>
             </div>
 
