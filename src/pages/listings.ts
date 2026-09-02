@@ -4,6 +4,7 @@ import { renderHeader } from "../components/header";
 import { renderFooter } from "../components/footer";
 import { getListings } from "../api/listings";
 import type { Listing } from "../types/listings";
+import { renderSearchBar } from "../components/searchBar";
 
 renderFooter();
 renderHeader();
@@ -134,3 +135,4 @@ async function paginateListings() {
 }
 
 paginateListings();
+renderSearchBar();
