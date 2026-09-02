@@ -12,8 +12,8 @@ setupMobileMenu();
 const grid = document.querySelector("#listings-grid");
 const baseURL = import.meta.env.BASE_URL;
 
-async function loadListings() {
-  const data = await getListings();
+async function loadListings(page: number) {
+  const data = await getListings(page);
 
   renderListings(data.data);
 }
@@ -22,6 +22,8 @@ function renderListings(listings: Listing[]) {
   if (!grid) {
     throw new Error("Listings element not found");
   }
+
+  grid.innerHTML = "";
 
   listings.forEach((listing) => {
     const sortedBids = listing.bids.sort((a, b) => b.amount - a.amount);
@@ -55,8 +57,8 @@ function renderListings(listings: Listing[]) {
 
     let titleDisplay = listing.title;
 
-    if (titleDisplay.length > 15) {
-      titleDisplay = titleDisplay.slice(0, 15) + "...";
+    if (titleDisplay.length > 25) {
+      titleDisplay = titleDisplay.slice(0, 25) + "...";
     }
 
     grid.innerHTML += `
@@ -113,4 +115,22 @@ function renderListings(listings: Listing[]) {
   });
 }
 
-loadListings();
+loadListings(1);
+
+async function paginateListings() {
+  const paginationButtons = document.querySelectorAll<HTMLButtonElement>(
+    ".listing-pagination",
+  );
+
+  paginationButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const page = Number(button.dataset.page);
+
+      await loadListings(page);
+
+      grid?.scrollIntoView();
+    });
+  });
+}
+
+paginateListings();
