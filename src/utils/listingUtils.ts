@@ -1,0 +1,1 @@
+// listing.category === selectedCategory
