@@ -18,24 +18,7 @@
     <main class="min-h-screen w-full">
       <h1 class="text-center mb-12 lg:mb-18">Auctions</h1>
       <!-- Search -->
-      <div class="mx-6">
-        <form
-          class="flex items-center mx-auto mb-8 gap-3 border-b-2 max-w-100 border-brand lg:mb-12"
-        >
-          <img class="w-6" src="../src/assets/icons/search.svg" alt="" />
-          <label for="listings-search" class="sr-only">Search</label>
-          <input
-            class="flex-1 bg-transparent outline-none placeholder:text-brand"
-            type="search"
-            id="listings-search"
-            name="listings-search"
-            placeholder="Search"
-          />
-          <button type="submit" aria-label="Search">
-            <img class="w-6" src="../src/assets/icons/arrow-right.svg" alt="" />
-          </button>
-        </form>
-      </div>
+      <div id="search-bar" class="mx-6"></div>
       <!-- Filter -->
       <div class="flex flex-col mb-3 xl:flex-row xl:justify-between xl:mb-6">
         <div

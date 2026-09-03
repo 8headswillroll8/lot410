@@ -8,3 +8,12 @@ export async function getListings(page: number) {
     },
   );
 }
+
+export async function getSearchResults(searchInput: string) {
+  return apiRequest(
+    `/auction/listings/search?q=${encodeURIComponent(searchInput)}&_bids=true`,
+    {
+      method: "GET",
+    },
+  );
+}
