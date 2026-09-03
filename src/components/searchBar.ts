@@ -8,6 +8,7 @@ export function renderSearchBar() {
 
   searchBarEl.innerHTML = `
     <form
+      id="search-form"
       class="flex items-center mx-auto mb-8 gap-3 border-b-2 pb-2  max-w-100 border-brand lg:mb-12"
     >
       <img class="w-6" src="${baseURL}src/assets/icons/search.svg" alt="" />

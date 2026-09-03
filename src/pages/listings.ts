@@ -1,17 +1,32 @@
 import "../style.css";
-import { setupMobileMenu } from "../components/mobileMenu";
-import { renderHeader } from "../components/header";
+import { getListings, getSearchResults } from "../api/listings";
 import { renderFooter } from "../components/footer";
-import { getListings } from "../api/listings";
-import type { Listing } from "../types/listings";
+import { renderHeader } from "../components/header";
+import { setupMobileMenu } from "../components/mobileMenu";
 import { renderSearchBar } from "../components/searchBar";
+import type { Listing } from "../types/listings";
 
 renderFooter();
 renderHeader();
+renderSearchBar();
 setupMobileMenu();
 
-const grid = document.querySelector("#listings-grid");
+const gridEl = document.querySelector("#listings-grid");
+const searchForm = document.querySelector<HTMLFormElement>("#search-form");
+const searchInput =
+  document.querySelector<HTMLInputElement>("#listings-search");
+
 const baseURL = import.meta.env.BASE_URL;
+
+if (!gridEl) {
+  throw new Error("Listings element not found");
+}
+
+const grid = gridEl;
+
+if (!searchForm || !searchInput) {
+  throw new Error("Search form elements not found");
+}
 
 async function loadListings(page: number) {
   const data = await getListings(page);
@@ -20,10 +35,6 @@ async function loadListings(page: number) {
 }
 
 function renderListings(listings: Listing[]) {
-  if (!grid) {
-    throw new Error("Listings element not found");
-  }
-
   grid.innerHTML = "";
 
   listings.forEach((listing) => {
@@ -31,7 +42,7 @@ function renderListings(listings: Listing[]) {
     const highestCredit = sortedBids[0]?.amount ?? 0;
 
     const imageUrl =
-      listing.media[0]?.url ?? `${baseURL}src/assets/images/fallback.svg`;
+      listing.media[0]?.url ?? `${baseURL}src/assets/images/fallback.jpg`;
     const imageAlt = listing.media[0]?.alt ?? listing.title;
 
     const endTime = new Date(listing.endsAt);
@@ -46,11 +57,7 @@ function renderListings(listings: Listing[]) {
     const minutes = Math.floor(totalMinutes % 60);
     const hours = Math.floor(totalHours % 24);
 
-    let timeDisplay;
-
-    if (timeLeft < 0) {
-      timeDisplay = "Ended";
-    }
+    let timeDisplay = "Ended";
 
     if (timeLeft > 0) {
       timeDisplay = `${totalDays}d ${hours}h ${minutes}m`;
@@ -65,9 +72,7 @@ function renderListings(listings: Listing[]) {
     grid.innerHTML += `
       <article class="text-xl">
         <a class="group" href="${baseURL}listing/index.html">
-          <div
-            class="listing-image-container relative aspect-square"
-          >
+          <div class="listing-image-container relative aspect-square">
             <img
               class="listing-image h-full w-full object-cover"
               src="${imageUrl}"
@@ -116,8 +121,6 @@ function renderListings(listings: Listing[]) {
   });
 }
 
-loadListings(1);
-
 async function paginateListings() {
   const paginationButtons = document.querySelectorAll<HTMLButtonElement>(
     ".listing-pagination",
@@ -129,10 +132,20 @@ async function paginateListings() {
 
       await loadListings(page);
 
-      grid?.scrollIntoView();
+      grid.scrollIntoView();
     });
   });
 }
 
+searchForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const searchValue = searchInput.value.trim();
+
+  const searchResults = await getSearchResults(searchValue);
+
+  renderListings(searchResults.data);
+});
+
 paginateListings();
-renderSearchBar();
+loadListings(1);
