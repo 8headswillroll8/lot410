@@ -23,3 +23,6 @@ test-results/
 *.njsproj
 *.sln
 *.sw?
+
+# Development testing file
+scratch/

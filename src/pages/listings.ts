@@ -15,6 +15,10 @@ const gridEl = document.querySelector("#listings-grid");
 const searchForm = document.querySelector<HTMLFormElement>("#search-form");
 const searchInput =
   document.querySelector<HTMLInputElement>("#listings-search");
+const alertElQuery = document.querySelector<HTMLDivElement>("#listings-alert");
+const alertTextElQuery = document.querySelector<HTMLParagraphElement>(
+  "#listings-alert-text",
+);
 
 const baseURL = import.meta.env.BASE_URL;
 
@@ -22,6 +26,12 @@ if (!gridEl) {
   throw new Error("Listings element not found");
 }
 
+if (!alertElQuery || !alertTextElQuery) {
+  throw new Error("Alert element not found");
+}
+
+const alertEl = alertElQuery;
+const alertTextEl = alertTextElQuery;
 const grid = gridEl;
 
 if (!searchForm || !searchInput) {
@@ -36,6 +46,18 @@ async function loadListings(page: number) {
 
 function renderListings(listings: Listing[]) {
   grid.innerHTML = "";
+
+  if (listings.length === 0) {
+    alertEl.classList.remove("hidden");
+    alertEl.classList.add("flex");
+    alertTextEl.textContent =
+      "Not a single lot in sight. Try searching for something else.";
+
+    return;
+  }
+
+  alertEl.classList.add("hidden");
+  alertEl.classList.remove("flex");
 
   listings.forEach((listing) => {
     const sortedBids = listing.bids.sort((a, b) => b.amount - a.amount);
@@ -145,6 +167,12 @@ searchForm.addEventListener("submit", async (event) => {
   const searchResults = await getSearchResults(searchValue);
 
   renderListings(searchResults.data);
+});
+
+searchInput.addEventListener("input", async () => {
+  if (searchInput.value === "") {
+    await loadListings(1);
+  }
 });
 
 paginateListings();
