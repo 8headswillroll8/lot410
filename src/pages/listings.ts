@@ -147,5 +147,11 @@ searchForm.addEventListener("submit", async (event) => {
   renderListings(searchResults.data);
 });
 
+searchInput.addEventListener("input", async () => {
+  if (searchInput.value === "") {
+    await loadListings(1);
+  }
+});
+
 paginateListings();
 loadListings(1);
