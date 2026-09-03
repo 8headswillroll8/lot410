@@ -19,8 +19,11 @@ const alertElQuery = document.querySelector<HTMLDivElement>("#listings-alert");
 const alertTextElQuery = document.querySelector<HTMLParagraphElement>(
   "#listings-alert-text",
 );
+const controlButtons =
+  document.querySelectorAll<HTMLButtonElement>(".listing-control");
 
 const baseURL = import.meta.env.BASE_URL;
+let currentListings: Listing[] = [];
 
 if (!gridEl) {
   throw new Error("Listings element not found");
@@ -41,7 +44,9 @@ if (!searchForm || !searchInput) {
 async function loadListings(page: number) {
   const data = await getListings(page);
 
-  renderListings(data.data);
+  currentListings = data.data;
+
+  renderListings(currentListings);
 }
 
 function renderListings(listings: Listing[]) {
@@ -55,6 +60,61 @@ function renderListings(listings: Listing[]) {
 
     return;
   }
+
+  function filterHotListings(listings: Listing[]) {
+    return listings.filter((listing) => listing.bids.length > 5);
+  }
+
+  function filterStealsListings(listings: Listing[]) {
+    return listings.filter((listing) => {
+      const sortedBids = listing.bids.sort((a, b) => b.amount - a.amount);
+      const highestCredit = sortedBids[0]?.amount ?? 0;
+
+      return highestCredit < 100 && listing.bids.length > 0;
+    });
+  }
+
+  function filterNoBidsListings(listings: Listing[]) {
+    return listings.filter((listing) => listing.bids.length === 0);
+  }
+
+  function sortEndingSoonListings(listings: Listing[]) {
+    const now = new Date();
+
+    return listings
+      .filter((listing) => {
+        const endTime = new Date(listing.endsAt);
+        const timeLeft = endTime.getTime() - now.getTime();
+
+        return timeLeft > 0;
+      })
+
+      .sort(
+        (a, b) => new Date(a.endsAt).getTime() - new Date(b.endsAt).getTime(),
+      );
+  }
+
+  controlButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filter;
+
+      if (filter === "hot") {
+        const hotListings = filterHotListings(currentListings);
+        renderListings(hotListings);
+      } else if (filter === "steals") {
+        const stealsListings = filterStealsListings(currentListings);
+        renderListings(stealsListings);
+      } else if (filter === "all") {
+        renderListings(currentListings);
+      } else if (filter === "no-bids") {
+        const noBids = filterNoBidsListings(currentListings);
+        renderListings(noBids);
+      } else if (filter === "ending") {
+        const endingSoon = sortEndingSoonListings(currentListings);
+        renderListings(endingSoon);
+      }
+    });
+  });
 
   alertEl.classList.add("hidden");
   alertEl.classList.remove("flex");

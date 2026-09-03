@@ -20,76 +20,50 @@
       <!-- Search -->
       <div id="search-bar" class="mx-6"></div>
       <!-- Filter -->
-      <div class="flex flex-col mb-3 xl:flex-row xl:justify-between xl:mb-6">
+      <div class="flex flex-col mb-3 xl:flex-row xl:mb-5">
         <div
-          class="grid grid-cols-2 sm:grid-cols-3 gap-2 mx-6 mb-4 xl:grid-cols-6"
+          class="grid grid-cols-2 sm:grid-cols-3 gap-2 mx-6 mb-4 xl:grid-cols-5 xl:mx-auto"
         >
           <button
             type="button"
             aria-pressed="true"
-            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            class="listing-control min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            data-filter="all"
           >
             View all
           </button>
           <button
             type="button"
             aria-pressed="false"
-            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            class="listing-control min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            data-filter="hot"
           >
-            Furniture
+            Hot
           </button>
           <button
             type="button"
             aria-pressed="false"
-            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            class="listing-control min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            data-filter="steals"
           >
-            Tech
+            Steals
           </button>
           <button
             type="button"
             aria-pressed="false"
-            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            class="listing-control min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            data-filter="no-bids"
           >
-            Clothing
+            No bids
           </button>
           <button
             type="button"
             aria-pressed="false"
-            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            class="listing-control min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
+            data-filter="ending"
           >
-            Plants
+            Ending soon
           </button>
-          <button
-            type="button"
-            aria-pressed="false"
-            class="min-w-30 border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white lg:px-6"
-          >
-            Other
-          </button>
-        </div>
-
-        <!-- Sort -->
-        <div class="flex justify-end relative mx-6">
-          <label for="listings-sort-by" class="sr-only">Sort by</label>
-
-          <select
-            name="listings-sort-by"
-            id="listings-sort-by"
-            class="appearance-none pr-7 text-brand outline-none lg:pr-9"
-          >
-            <option value="">Sort by</option>
-            <option value="ending-soon">Ending soon</option>
-            <option value="newest">Newest</option>
-            <option value="most-bids">Most bids</option>
-            <option value="highest-bid">Highest bid</option>
-            <option value="lowest-bid">Lowest bid</option>
-          </select>
-
-          <img
-            class="absolute right-0 top-1 pointer-events-none xl:right-2.25 xl:top-4"
-            src="../src/assets/icons/arrow-down.svg"
-            alt=""
-          />
         </div>
       </div>
       <!-- Grid -->
