@@ -24,5 +24,7 @@ test-results/
 *.sln
 *.sw?
 
+.env.local
+
 # Development testing file
 scratch/
