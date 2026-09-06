@@ -14,9 +14,6 @@ export async function apiRequest(
     headers.set("Authorization", `Bearer ${token}`);
     headers.set("X-Noroff-API-Key", key);
 
-    console.log("token:", token);
-    console.log("key exists:", Boolean(key));
-
     options.headers = headers;
   }
 
