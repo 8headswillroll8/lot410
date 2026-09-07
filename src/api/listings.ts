@@ -1,3 +1,4 @@
+import type { CreateListingsParams } from "../types/listings";
 import { apiRequest } from "./client";
 
 export async function getListings(page: number) {
@@ -15,5 +16,19 @@ export async function getSearchResults(searchInput: string) {
     {
       method: "GET",
     },
+  );
+}
+
+export async function createListing(params: CreateListingsParams) {
+  return apiRequest(
+    "/auction/listings",
+    {
+      method: "POST",
+      headers: {
+        "content-Type:": "application/json",
+      },
+      body: JSON.stringify(params),
+    },
+    true,
   );
 }

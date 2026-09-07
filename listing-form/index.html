@@ -21,103 +21,10 @@
       <h1 class="mb-9 text-center text-[82px] leading-20 md:text-[92px]">
         New listing
       </h1>
-      <form class="flex flex-col gap-5">
-        <!-- title -->
-        <div class="flex flex-col">
-          <label class="pb-2" for="listing-form-title">Title</label>
-          <input
-            class="border-2 border-brand p-2 focus:border-dashed focus:outline-none placeholder:text-brand"
-            type="text"
-            id="listing-form-title"
-            name="listing-form-title"
-            placeholder="What are you passing on?"
-          />
-        </div>
-
-        <!-- Category -->
-        <div class="flex flex-col">
-          <label class="pb-2" for="listing-form-category">Category</label>
-          <select
-            class="border-2 border-brand p-2 focus:border-dashed focus:outline-none"
-            type="text"
-            id="listing-form-category"
-            name="listing-form-category"
-          >
-            <option value="">Choose a category</option>
-            <option value="furniture">Furniture</option>
-            <option value="tech">Tech</option>
-            <option value="clothing">Clothing</option>
-            <option value="plants">Plants</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <!-- Image URL -->
-        <div class="flex flex-col">
-          <label class="pb-2" for="listing-form-image">Image URL</label>
-          <input
-            class="border-2 border-brand p-2 focus:border-dashed focus:outline-none placeholder:text-brand"
-            type="url"
-            id="listing-form-image"
-            name="listing-form-image"
-            placeholder="Paste a link to your image"
-          />
-        </div>
-
-        <!-- Image description -->
-        <div class="flex flex-col">
-          <label class="pb-2" for="listing-form-alt">Image description</label>
-          <input
-            class="border-2 border-brand p-2 focus:border-dashed focus:outline-none placeholder:text-brand"
-            type="text"
-            id="listing-form-alt"
-            name="listing-form-alt"
-            placeholder="Image description"
-          />
-        </div>
-
-        <!-- Description -->
-        <div class="flex flex-col">
-          <label class="pb-2" for="listing-form-description">Description</label>
-          <textarea
-            class="border-2 border-brand p-2 focus:border-dashed focus:outline-none placeholder:text-brand"
-            name="listing-form-description"
-            id="listing-form-description"
-            rows="4"
-            placeholder="Tell us about it. Condition, details, quirks, anything worth knowing."
-          ></textarea>
-        </div>
-
-        <!-- Time -->
-        <div class="flex flex-col">
-          <label class="pb-2" for="listing-ends-at">Ends at</label>
-          <input
-            class="border-2 border-brand p-2 focus:border-dashed focus:outline-none placeholder:text-brand"
-            type="datetime-local"
-            id="listing-ends-at"
-            name="listing-ends-at"
-          />
-        </div>
-
-        <!-- Buttons  -->
-        <div class="flex gap-3">
-          <button
-            class="flex-1 h-12 w-full border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white"
-            type="button"
-          >
-            Delete
-          </button>
-          <button
-            class="flex-2 h-12 w-full rounded-full bg-brand text-white hover:rounded-none"
-            type="submit"
-          >
-            Put it up for auction
-          </button>
-        </div>
-      </form>
+      <form class="listing-form flex flex-col gap-5" novalidate></form>
       <!-- Alert messages -->
       <div
-        class="hidden items-start gap-2"
+        class="hidden items-start gap-2 pt-3"
         id="listing-form-alert"
         aria-live="polite"
       >

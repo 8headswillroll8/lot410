@@ -18,3 +18,14 @@ export interface Listing {
     bids: number;
   };
 }
+
+export interface CreateListingsParams {
+  title: string;
+  description?: string;
+  tags?: string[];
+  media?: {
+    url: string;
+    alt: string;
+  }[];
+  endsAt: string;
+}
