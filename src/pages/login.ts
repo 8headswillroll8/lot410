@@ -58,8 +58,10 @@ loginForm.addEventListener("submit", async (event) => {
     const data = await login(email, password);
 
     const accessToken = data.data.accessToken;
+    const name = data.data.name;
 
     localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("name", name);
 
     loginIcon.src = "../src/assets/icons/smiley.svg";
     loginAlert.classList.remove("hidden");

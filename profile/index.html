@@ -19,53 +19,7 @@
       <!-- Shared profile width -->
       <div class="mx-auto w-full max-w-250">
         <!-- Profile -->
-        <section>
-          <!-- Header -->
-          <div class="relative">
-            <img
-              class="min-h-62.5 w-full object-cover"
-              src="../src/assets/images/header.svg"
-              alt="Grey gradient"
-            />
-
-            <button class="absolute right-4 bottom-4" type="button">
-              <img src="../src/assets/icons/edit.svg" alt="" />
-            </button>
-
-            <!-- Avatar -->
-            <div class="absolute left-5 bottom-0 w-30 translate-y-5 md:w-50">
-              <img
-                class="aspect-square w-full rounded-full object-cover"
-                src="../src/assets/images/profile-avatar.webp"
-                alt="Profile picture of Nicco Dahl"
-              />
-            </div>
-          </div>
-
-          <!-- Profile info -->
-          <div class="mx-6 flex flex-col pt-8 sm:flex-row sm:justify-between">
-            <!-- Info -->
-            <div>
-              <h1 class="font-sans text-[20px] font-normal md:text-[24px]">
-                Nicco Dahl
-              </h1>
-              <p>nicco.dahl@stud.noroff.no</p>
-            </div>
-
-            <!-- Credits -->
-            <div class="mt-5 sm:mt-0">
-              <p>Credits</p>
-              <div class="flex">
-                <img
-                  class="w-6"
-                  src="../src/assets/icons/arrow-right.svg"
-                  alt=""
-                />
-                <p>1,240</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <section id="profile-header"></section>
 
         <!-- Profile content -->
         <section class="mt-8 flex flex-col gap-4">
@@ -92,7 +46,9 @@
 
           <!-- Filters -->
           <div class="mb-3 flex flex-col xl:mb-6">
-            <div class="mx-6 mb-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
+            <div
+              class="filter-buttons mx-6 mb-4 grid grid-cols-1 gap-2 sm:grid-cols-3"
+            >
               <button
                 type="button"
                 data-filter="all"
@@ -139,55 +95,7 @@
           </div>
 
           <!-- listing -->
-          <div id="profile-listings">
-            <article
-              class="grid grid-cols-2 gap-y-3 border-b border-brand pb-6 mx-6 text-[16px] sm:grid-cols-3 md:grid-cols-6 md:mx-0 md:items-center"
-            >
-              <div class="group relative w-19.25">
-                <img
-                  class="w-full h-full aspect-square object-cover"
-                  src="../src/assets/images/listing-playstation.webp"
-                  alt="Playstation"
-                />
-
-                <!-- Blue overlay -->
-                <div
-                  class="absolute inset-0 bg-brand opacity-0 transition-opacity group-hover:opacity-100"
-                ></div>
-
-                <img
-                  class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                  src="../src/assets/icons/edit-circle.svg"
-                  alt=""
-                />
-              </div>
-
-              <div>
-                <p class="font-bold">Item</p>
-                <p>Playstation</p>
-              </div>
-
-              <div>
-                <p class="font-bold">Ends in</p>
-                <p>1d 11h 52m 28s</p>
-              </div>
-
-              <div>
-                <p class="font-bold">Current bid</p>
-                <p>350 credits</p>
-              </div>
-
-              <div>
-                <p class="font-bold">Bids</p>
-                <p>8 bids</p>
-              </div>
-
-              <div>
-                <p class="font-bold">Status</p>
-                <p>Listing active</p>
-              </div>
-            </article>
-          </div>
+          <div id="profile-listings"></div>
         </section>
 
         <!-- Alert messages -->
