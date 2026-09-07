@@ -21,15 +21,24 @@ const currListingsBtn = document.querySelector<HTMLButtonElement>(
 const biddingHistoryBtn = document.querySelector<HTMLButtonElement>(
   "#bidding-history-button",
 );
+const filterButtons = document.querySelectorAll<HTMLButtonElement>(
+  ".filter-buttons button",
+);
 
 const baseURL = import.meta.env.BASE_URL;
 
 const name = localStorage.getItem("name");
 
 let currentView = "listings";
-// let currentFilter = "all";
+let currentFilter = "all";
 
-if (!headerEl || !listingsEl || !currListingsBtn || !biddingHistoryBtn) {
+if (
+  !headerEl ||
+  !listingsEl ||
+  !currListingsBtn ||
+  !biddingHistoryBtn ||
+  !filterButtons
+) {
   throw new Error("Profile elements not found");
 }
 
@@ -41,13 +50,8 @@ const profileData = await getProfile(name);
 const listingData = await getProfileListings(name);
 const biddingHistoryData = await getBiddingHistory(name);
 
-console.log("listingData:", listingData);
-console.log("biddingHistoryData:", biddingHistoryData);
-
 const profileListings = listingData.data;
 const biddingHistory = biddingHistoryData.data;
-console.log(biddingHistory[0]);
-console.log(biddingHistory);
 
 const header = headerEl;
 const listingContainer = listingsEl;
@@ -101,9 +105,9 @@ function renderProfileHeader() {
 renderProfileHeader();
 
 function renderListing() {
-  console.log("renderListing ran");
-  console.log("currentView", currentView);
-  let listingsToRender;
+  listingContainer.innerHTML = "";
+
+  let listingsToRender: Listing[];
 
   if (currentView === "listings") {
     listingsToRender = profileListings;
@@ -111,7 +115,17 @@ function renderListing() {
     listingsToRender = biddingHistory;
   }
 
-  console.log("listingsToRender:", listingsToRender);
+  if (currentFilter === "active") {
+    listingsToRender = listingsToRender.filter(
+      (listing) => new Date(listing.endsAt).getTime() > new Date().getTime(),
+    );
+  }
+
+  if (currentFilter === "ended") {
+    listingsToRender = listingsToRender.filter(
+      (listing) => new Date(listing.endsAt).getTime() < new Date().getTime(),
+    );
+  }
 
   if (listingsToRender.length === 0) {
     if (currentView === "listings") {
@@ -215,4 +229,18 @@ currListingsBtn.addEventListener("click", () => {
 biddingHistoryBtn.addEventListener("click", () => {
   currentView = "bids";
   renderListing();
+});
+
+renderListing();
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const filter = button.dataset.filter;
+
+    if (!filter) return;
+
+    currentFilter = filter;
+
+    renderListing();
+  });
 });
