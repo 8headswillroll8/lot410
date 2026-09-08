@@ -2,7 +2,7 @@ import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu";
 import { renderHeader } from "../components/header";
 import { renderFooter } from "../components/footer";
-// import { createListing } from "../api/listings";
+import { createListing } from "../api/listings";
 
 renderFooter();
 renderHeader();
@@ -129,7 +129,7 @@ if (
   throw new Error("Listing form element not found");
 }
 
-listingForm.addEventListener("submit", (e) => {
+listingForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const title = listingTitle.value.trim();
   const imageUrl = listingImageUrl.value.trim();
@@ -179,5 +179,31 @@ listingForm.addEventListener("submit", (e) => {
     listingAlertContainer.classList.remove("hidden");
     listingAlert.innerText = "When should the auction end?";
     return;
+  }
+
+  const params = {
+    title: title,
+    description: description,
+    media: [
+      {
+        url: imageUrl,
+        alt: imageAlt,
+      },
+    ],
+    endsAt: endsAt,
+  };
+
+  try {
+    console.log("about to create listing", params);
+    const listingData = await createListing(params);
+
+    const id = listingData.data.id;
+
+    window.location.href = `../listing/index.html?id=${id}`;
+  } catch (error) {
+    console.error(error);
+    listingAlertContainer.classList.add("flex");
+    listingAlertContainer.classList.remove("hidden");
+    listingAlert.innerText = "That didn't go up for auction. Try again";
   }
 });

@@ -25,7 +25,7 @@ export async function createListing(params: CreateListingsParams) {
     {
       method: "POST",
       headers: {
-        "content-Type:": "application/json",
+        "content-Type": "application/json",
       },
       body: JSON.stringify(params),
     },

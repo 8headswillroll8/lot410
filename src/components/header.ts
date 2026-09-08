@@ -60,7 +60,7 @@ export function renderHeader() {
 
           <!-- Logged in -->
           <li id="desktop-sell-link" class="auth-logged-in hidden">
-            <a href="${baseURL}create-listing/index.html">Sell</a>
+            <a href="${baseURL}listing-form/index.html">Sell</a>
           </li>
 
           <li class="auth-logged-in hidden">
@@ -129,7 +129,7 @@ export function renderHeader() {
 
           <!-- Logged in -->
           <li id="mobile-sell-link" class="auth-logged-in hidden">
-            <a href="${baseURL}create-listing/index.html">Sell</a>
+            <a href="${baseURL}listing-form/index.html">Sell</a>
           </li>
 
           <li id="mobile-profile-link" class="auth-logged-in hidden">
