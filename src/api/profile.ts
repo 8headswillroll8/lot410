@@ -12,7 +12,7 @@ export async function getProfile(name: string) {
 
 export async function getProfileListings(name: string) {
   return apiRequest(
-    `/auction/profiles/${name}/listings`,
+    `/auction/profiles/${name}/listings?_bids=true`,
     {
       method: "GET",
     },
