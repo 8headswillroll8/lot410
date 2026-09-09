@@ -7,6 +7,17 @@ export async function getListings(page: number) {
     {
       method: "GET",
     },
+    true,
+  );
+}
+
+export async function getSingleListing(id: string) {
+  return apiRequest(
+    `/auction/listings/${id}?_bids=true`,
+    {
+      method: "GET",
+    },
+    true,
   );
 }
 
