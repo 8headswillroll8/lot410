@@ -1,5 +1,9 @@
 export interface Bid {
   amount: number;
+  bidder: {
+    name: string;
+  };
+  created: string;
 }
 
 export interface Media {

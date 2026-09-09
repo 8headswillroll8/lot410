@@ -153,7 +153,7 @@ function renderListings(listings: Listing[]) {
 
     grid.innerHTML += `
       <article class="text-xl">
-        <a class="group" href="${baseURL}listing/index.html">
+        <a class="group" href="${baseURL}listing/index.html?id=${listing.id}">
           <div class="listing-image-container relative aspect-square">
             <img
               class="listing-image h-full w-full object-cover"
