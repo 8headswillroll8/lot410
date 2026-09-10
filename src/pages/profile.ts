@@ -69,7 +69,7 @@ function renderProfileHeader() {
     <!-- Header -->
     <div class="relative">
       <img
-        class="min-h-62.5 w-full object-cover"
+        class="aspect-3/1 w-full object-cover"
         src="${profileData.data.banner.url}"
         alt="${profileData.data.banner.alt}"
       />
@@ -274,10 +274,10 @@ function renderEditProfile() {
 
       const data = await editProfile(profileName, params);
 
+      profileData.data = data.data;
+
       renderProfileHeader();
       closeEditProfile();
-
-      console.log(data);
     } catch {
       profileAlertContainer.classList.add("flex");
       profileAlertContainer.classList.remove("hidden");
