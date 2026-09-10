@@ -124,7 +124,7 @@ function renderListings(listings: Listing[]) {
     const highestCredit = sortedBids[0]?.amount ?? 0;
 
     const imageUrl =
-      listing.media[0]?.url ?? `${baseURL}src/assets/images/fallback.jpg`;
+      listing.media[0]?.url ?? `${baseURL}assets/images/fallback.jpg`;
     const imageAlt = listing.media[0]?.alt ?? listing.title;
 
     const endTime = new Date(listing.endsAt);
@@ -198,7 +198,7 @@ function renderListings(listings: Listing[]) {
 
   images.forEach((image) => {
     image.addEventListener("error", () => {
-      image.src = `${baseURL}src/assets/images/fallback.jpg`;
+      image.src = `${baseURL}assets/images/fallback.jpg`;
     });
   });
 }
