@@ -1,4 +1,5 @@
 import { apiRequest } from "../api/client";
+import type { EditListingsParams } from "../types/listings";
 
 export async function getProfile(name: string) {
   return apiRequest(
@@ -25,6 +26,20 @@ export async function getBiddingHistory(name: string) {
     `/auction/profiles/${name}/bids?_listings=true`,
     {
       method: "GET",
+    },
+    true,
+  );
+}
+
+export async function editListing(id: string, params: EditListingsParams) {
+  return apiRequest(
+    `/auction/listings/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
     },
     true,
   );

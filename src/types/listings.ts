@@ -29,3 +29,13 @@ export interface CreateListingsParams {
   }[];
   endsAt: string;
 }
+
+export interface EditListingsParams {
+  title?: string;
+  description?: string;
+  tags?: string;
+  media?: {
+    url: string;
+    alt: string;
+  };
+}
