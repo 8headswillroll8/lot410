@@ -15,7 +15,7 @@ export function renderHeader() {
       <a href="${baseURL}">
         <img
           class="w-18"
-          src="${baseURL}src/assets/logo/lot410-logo.svg"
+          src="${baseURL}assets/logo/lot410-logo.svg"
           alt="LOT410"
         />
       </a>
@@ -27,13 +27,13 @@ export function renderHeader() {
           id="mobile-user-summary"
           class="auth-logged-in hidden items-center gap-1"
         >
-          <img class="w-4" src="${baseURL}src/assets/icons/coin-stack.svg" alt="" />
+          <img class="w-4" src="${baseURL}assets/icons/coin-stack.svg" alt="" />
           <p>1,240</p>
 
           <a href="${baseURL}profile/index.html">
             <img
               class="aspect-square w-10 rounded-full object-cover"
-              src="${baseURL}src/assets/images/profile-avatar.webp"
+              src="${baseURL}assets/images/profile-avatar.webp"
               alt=""
             />
           </a>
@@ -47,7 +47,7 @@ export function renderHeader() {
           aria-expanded="false"
           aria-controls="mobile-menu"
         >
-          <img class="w-6" src="${baseURL}src/assets/icons/hamburger-menu.svg" alt="" />
+          <img class="w-6" src="${baseURL}assets/icons/hamburger-menu.svg" alt="" />
         </button>
       </div>
 
@@ -71,13 +71,13 @@ export function renderHeader() {
           
           <li id="desktop-user-summary" class="auth-logged-in hidden">
             <div class="flex items-center gap-1">
-              <img class="w-4" src="${baseURL}src/assets/icons/coin-stack.svg" alt="" />
+              <img class="w-4" src="${baseURL}assets/icons/coin-stack.svg" alt="" />
               <p>1,240</p>
 
               <a href="${baseURL}profile/index.html">
                 <img
                   class="aspect-square w-10 rounded-full object-cover"
-                  src="${baseURL}src/assets/images/profile-avatar.webp"
+                  src="${baseURL}assets/images/profile-avatar.webp"
                   alt=""
                 />
               </a>
@@ -110,14 +110,14 @@ export function renderHeader() {
           <a href="${baseURL}">
             <img
               class="w-18"
-              src="${baseURL}src/assets/logo/lot410-logo-white.svg"
+              src="${baseURL}assets/logo/lot410-logo-white.svg"
               alt="LOT410"
             />
           </a>
 
           <!-- Close button -->
           <button type="button" id="close-button" aria-label="Close menu">
-            <img class="w-6" src="${baseURL}src/assets/icons/x-white.svg" alt="" />
+            <img class="w-6" src="${baseURL}assets/icons/x-white.svg" alt="" />
           </button>
         </div>
 
