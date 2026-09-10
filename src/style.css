@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Monument Grotesk";
-  src: url("./assets/fonts/ABCMonumentGroteskTrial-Regular.otf")
+  src: url("/lot410/assets/fonts/ABCMonumentGroteskTrial-Regular.otf")
     format("opentype");
   font-weight: 400;
   font-style: normal;
@@ -10,14 +10,15 @@
 
 @font-face {
   font-family: "Monument Grotesk";
-  src: url("./assets/fonts/ABCMonumentGroteskTrial-Bold.otf") format("opentype");
+  src: url("/lot410/assets/fonts/ABCMonumentGroteskTrial-Bold.otf")
+    format("opentype");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Oatmeal Sans";
-  src: url("./assets/fonts/Oatmeal Sans.ttf") format("truetype");
+  src: url("/lot410/assets/fonts/Oatmeal Sans.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
@@ -47,6 +48,6 @@
   }
 
   .listing-image-container {
-    cursor: url(../src/assets/icons/gavel-white.svg), pointer;
+    cursor: url("/lot410/assets/icons/gavel-white.svg"), pointer;
   }
 }

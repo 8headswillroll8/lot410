@@ -62,6 +62,7 @@ function renderListingForm() {
         name="listing-form-description"
         id="listing-form-description"
         rows="4"
+        maxlength="280"
         placeholder="Tell us about it. Condition, details, quirks, anything worth knowing."
       ></textarea>
     </div>
@@ -167,7 +168,7 @@ listingForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  if (description.length > 1000) {
+  if (description.length > 280) {
     listingAlertContainer.classList.add("flex");
     listingAlertContainer.classList.remove("hidden");
     listingAlert.innerText = "Keep your description under 1000 characters";

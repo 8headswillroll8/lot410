@@ -2,13 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <link
       rel="icon"
       type="image/svg+xml"
-      href="../src/assets/icons/gavel.svg"
+      href="/lot410/assets/icons/gavel.svg"
     />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="../src/style.css" />
+
     <title>Lot410 | Listings</title>
   </head>
 
@@ -16,99 +20,30 @@
     <header></header>
 
     <main class="min-h-screen w-full">
-      <article class="mb-8 flex flex-col md:flex-row md:items-start">
-        <div class="relative aspect-square md:w-1/2">
-          <img
-            class="w-full h-full object-cover"
-            src="../src/assets/images/listing-caps.webp"
-            alt="Black vintage caps with white geometrical logo"
-          />
-          <a href="../create-listing/index.html" hidden>
-            <img
-              class="absolute top-3 right-3"
-              src="../src/assets/icons/edit-circle.svg"
-              alt=""
-            />
-          </a>
-        </div>
-
-        <div class="md:w-1/2">
-          <div class="mx-6 lg:mx-15">
-            <h1 class="mb-6 text-[54px] lg:text-[64px]">Vintage caps</h1>
-            <p class="mb-12 text-pretty">
-              Black vintage cap with embroidered detail. Picked it up
-              second-hand, wore it approximately three times, and now it
-              deserves a more committed owner. Adjustable at the back and in
-              good condition.
-            </p>
-
-            <p class="flex items-start gap-3">
-              <img
-                class="w-4.5 translate-y-2"
-                src="../src/assets/icons/coin-stack.svg"
-                alt=""
-              />Alex bid 80 credits → 2 min ago
-            </p>
-
-            <p class="flex gap-3">
-              <img class="w-5" src="../src/assets/icons/plus.svg" alt="" />3
-              bids and counting
-            </p>
-            <p class="flex gap-3 mb-12">
-              <img src="../src/assets/icons/hourglass.svg" alt="" />48m 23s left
-            </p>
-          </div>
-
-          <div class="flex mx-6 lg:mx-15">
-            <form class="flex flex-col w-full">
-              <div class="flex flex-row mb-4 border-b-2 xl:mb-8">
-                <label for="listing-bid" class="sr-only">Place bid here</label>
-                <img class="w-7" src="../src/assets/icons/gavel.svg" alt="" />
-                <input
-                  class="flex-1 bg-transparent outline-none placeholder:text-brand"
-                  type="number"
-                  id="listing-bid"
-                  name="listing-bid"
-                  placeholder="Your bid here, 81 or more"
-                />
-              </div>
-              <button
-                class="h-12.5 rounded-full bg-brand text-white hover:rounded-none"
-                type="submit"
-              >
-                Place bid
-              </button>
-            </form>
-          </div>
-        </div>
-      </article>
-
-      <section class="text-center mb-15">
-        <h2 class="mb-2">Bid activity</h2>
-        <div class="flex justify-center gap-2">
-          <img src="../src/assets/icons/trophy.svg" alt="" />
-          <p>Alex bid 80 credits → 2 min ago</p>
-        </div>
-        <p class="opacity-40">Mira bid 65 credits → 11 min ago</p>
-        <p class="opacity-40">Alex bid 40 credits → 18 min ago</p>
-      </section>
-
       <!-- Alert messages -->
       <div
         class="hidden items-start gap-2"
-        id="listings-alert"
+        id="listing-alert"
         aria-live="polite"
       >
         <img
-          id="listings-icon"
+          id="listing-icon"
           class="mt-1 w-7 md:mt-2"
-          src="../src/assets/icons/awkward.svg"
+          src="/lot410/assets/icons/awkward.svg"
           alt=""
         />
-        <p id="listings-alert-text">
+
+        <p id="listing-alert-text">
           Well, this is awkward. We couldn't load the listing. Try again.
         </p>
       </div>
+
+      <article
+        id="single-listing"
+        class="mb-8 flex flex-col md:flex-row md:items-start"
+      ></article>
+
+      <section id="bidding-activity" class="mb-15 text-center"></section>
     </main>
 
     <!-- Footer -->

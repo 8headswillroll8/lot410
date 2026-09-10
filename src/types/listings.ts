@@ -1,5 +1,9 @@
 export interface Bid {
   amount: number;
+  bidder: {
+    name: string;
+  };
+  created: string;
 }
 
 export interface Media {
@@ -28,6 +32,17 @@ export interface CreateListingsParams {
     alt: string;
   }[];
   endsAt: string;
+}
+
+export interface CreateEditProfileParams {
+  avatar: {
+    url: string;
+    alt: string;
+  };
+  banner: {
+    url: string;
+    alt: string;
+  };
 }
 
 export interface EditListingsParams {

@@ -7,6 +7,17 @@ export async function getListings(page: number) {
     {
       method: "GET",
     },
+    true,
+  );
+}
+
+export async function getSingleListing(id: string) {
+  return apiRequest(
+    `/auction/listings/${id}?_bids=true`,
+    {
+      method: "GET",
+    },
+    true,
   );
 }
 
@@ -25,7 +36,7 @@ export async function createListing(params: CreateListingsParams) {
     {
       method: "POST",
       headers: {
-        "content-Type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
     },
