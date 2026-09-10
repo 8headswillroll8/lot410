@@ -274,6 +274,9 @@ function renderEditProfile() {
 
       const data = await editProfile(profileName, params);
 
+      renderProfileHeader();
+      closeEditProfile();
+
       console.log(data);
     } catch {
       profileAlertContainer.classList.add("flex");

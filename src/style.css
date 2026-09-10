@@ -48,6 +48,6 @@
   }
 
   .listing-image-container {
-    cursor: url(../src/assets/icons/gavel-white.svg), pointer;
+    cursor: url("/lot410/src/assets/icons/gavel-white.svg"), pointer;
   }
 }
