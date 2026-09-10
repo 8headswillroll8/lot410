@@ -33,3 +33,14 @@ export interface CreateListingsParams {
   }[];
   endsAt: string;
 }
+
+export interface CreateEditProfileParams {
+  avatar: {
+    url: string;
+    alt: string;
+  };
+  banner: {
+    url: string;
+    alt: string;
+  };
+}
