@@ -6,6 +6,8 @@ import { renderHeader } from "../components/header";
 renderHeader();
 setupMobileMenu();
 
+const baseURL = import.meta.env.BASE_URL;
+
 const registerForm = document.querySelector<HTMLFormElement>("#register-form");
 const registerUsername =
   document.querySelector<HTMLInputElement>("#register-username");
@@ -110,16 +112,17 @@ registerForm.addEventListener("submit", async (event) => {
 
   try {
     await register(username, email, password);
-    registerIcon.src = "../src/assets/icons/smiley.svg";
+
+    registerIcon.src = `${baseURL}assets/icons/smiley.svg`;
     registerAlert.classList.remove("hidden");
     registerAlert.classList.add("flex");
     registerAlertText.textContent = "You're in. Off to login.";
 
     setTimeout(() => {
-      window.location.href = "../login/";
+      window.location.href = `${baseURL}login/index.html`;
     }, 1500);
   } catch {
-    registerIcon.src = "../src/assets/icons/alert-circle.svg";
+    registerIcon.src = `${baseURL}assets/icons/alert-circle.svg`;
     registerAlert.classList.remove("hidden");
     registerAlert.classList.add("flex");
     registerAlertText.textContent = "Something went wrong. Try again.";

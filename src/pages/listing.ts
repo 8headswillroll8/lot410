@@ -39,7 +39,7 @@ function renderSingleListing(listing: Listing) {
   const lastBid = listing.bids[listing.bids.length - 1];
 
   const imgUrl =
-    listing.media[0]?.url ?? `${baseURL}src/assets/images/fallback.jpg`;
+    listing.media[0]?.url ?? `${baseURL}assets/images/fallback.jpg`;
 
   const imgAlt = listing.media[0]?.alt ?? listing.title;
 
@@ -74,10 +74,10 @@ function renderSingleListing(listing: Listing) {
         alt="${imgAlt}"
       />
 
-      <a href="${baseURL}create-listing/index.html" hidden>
+      <a href="${baseURL}listing-form/index.html" hidden>
         <img
           class="absolute top-3 right-3"
-          src="${baseURL}src/assets/icons/edit-circle.svg"
+          src="${baseURL}assets/icons/edit-circle.svg"
           alt=""
         />
       </a>
@@ -96,7 +96,7 @@ function renderSingleListing(listing: Listing) {
         <p class="flex items-start gap-3">
           <img
             class="w-4.5 translate-y-2"
-            src="${baseURL}src/assets/icons/coin-stack.svg"
+            src="${baseURL}assets/icons/coin-stack.svg"
             alt=""
           />
           ${bidDisplay}${timeAgo ? ` → ${timeAgo}` : ""}
@@ -105,7 +105,7 @@ function renderSingleListing(listing: Listing) {
         <p class="flex gap-3">
           <img
             class="w-5"
-            src="${baseURL}src/assets/icons/plus.svg"
+            src="${baseURL}assets/icons/plus.svg"
             alt=""
           />
           ${totalBids}
@@ -113,7 +113,7 @@ function renderSingleListing(listing: Listing) {
 
         <p class="flex gap-3 mb-12">
           <img
-            src="${baseURL}src/assets/icons/hourglass.svg"
+            src="${baseURL}assets/icons/hourglass.svg"
             alt=""
           />
           ${countDown}
@@ -129,7 +129,7 @@ function renderSingleListing(listing: Listing) {
 
             <img
               class="w-7"
-              src="${baseURL}src/assets/icons/gavel.svg"
+              src="${baseURL}assets/icons/gavel.svg"
               alt=""
             />
 
@@ -168,7 +168,7 @@ function renderBiddingActivity(listing: Listing) {
       <div class="flex justify-center gap-2">
         ${
           index === 0
-            ? `<img src="${baseURL}src/assets/icons/trophy.svg" alt="" />`
+            ? `<img src="${baseURL}assets/icons/trophy.svg" alt="" />`
             : ""
         }
 

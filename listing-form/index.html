@@ -2,13 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <link
       rel="icon"
       type="image/svg+xml"
-      href="../src/assets/icons/gavel.svg"
+      href="/lot410/assets/icons/gavel.svg"
     />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="../src/style.css" />
+
     <title>Lot410 | List something</title>
   </head>
 
@@ -16,12 +20,14 @@
     <header></header>
 
     <main
-      class="flex flex-col mx-auto min-h-screen w-full px-6 my-20 max-w-150"
+      class="mx-auto my-20 flex min-h-screen w-full max-w-150 flex-col px-6"
     >
       <h1 class="mb-9 text-center text-[82px] leading-20 md:text-[92px]">
         New listing
       </h1>
+
       <form class="listing-form flex flex-col gap-5" novalidate></form>
+
       <!-- Alert messages -->
       <div
         class="hidden items-start gap-2 pt-3"
@@ -31,9 +37,10 @@
         <img
           id="listing-form-icon"
           class="mt-1 w-7 md:mt-2"
-          src="../src/assets/icons/alert-circle.svg"
+          src="/lot410/assets/icons/alert-circle.svg"
           alt=""
         />
+
         <p id="listing-form-alert-text">Something went wrong. Try again.</p>
       </div>
     </main>

@@ -6,6 +6,8 @@ import { login } from "../api/auth";
 renderHeader();
 setupMobileMenu();
 
+const baseURL = import.meta.env.BASE_URL;
+
 const loginForm = document.querySelector<HTMLFormElement>("#login-form");
 const loginEmail = document.querySelector<HTMLInputElement>("#login-email");
 const loginPassword =
@@ -63,16 +65,16 @@ loginForm.addEventListener("submit", async (event) => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("name", name);
 
-    loginIcon.src = "../src/assets/icons/smiley.svg";
+    loginIcon.src = `${baseURL}assets/icons/smiley.svg`;
     loginAlert.classList.remove("hidden");
     loginAlert.classList.add("flex");
     loginAlertText.textContent = "Welcome. Let the bidding begin.";
 
     setTimeout(() => {
-      window.location.href = "../listings/index.html";
+      window.location.href = `${baseURL}listings/index.html`;
     }, 1500);
   } catch {
-    loginIcon.src = "../src/assets/icons/alert-circle.svg";
+    loginIcon.src = `${baseURL}assets/icons/alert-circle.svg`;
     loginAlert.classList.remove("hidden");
     loginAlert.classList.add("flex");
     loginAlertText.textContent = "Nope. Email or password isn't right.";

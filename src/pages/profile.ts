@@ -80,7 +80,7 @@ function renderProfileHeader() {
         type="button"
       >
         <img
-          src="${baseURL}src/assets/icons/edit.svg"
+          src="${baseURL}assets/icons/edit.svg"
           alt=""
         />
       </button>
@@ -112,7 +112,7 @@ function renderProfileHeader() {
         <div class="flex">
           <img
             class="w-6"
-            src="${baseURL}src/assets/icons/arrow-right.svg"
+            src="${baseURL}assets/icons/arrow-right.svg"
             alt=""
           />
 
@@ -210,7 +210,7 @@ function renderEditProfile() {
       >
         <img
           class="mt-1 w-7"
-          src="${baseURL}src/assets/icons/alert-circle.svg"
+          src="${baseURL}assets/icons/alert-circle.svg"
           alt=""
         />
 
@@ -322,7 +322,7 @@ function renderListing() {
     const highestCredit = sortedBids[0]?.amount ?? 0;
 
     const imageUrl =
-      listing.media[0]?.url ?? `${baseURL}src/assets/images/fallback.jpg`;
+      listing.media[0]?.url ?? `${baseURL}assets/images/fallback.jpg`;
 
     const imageAlt = listing.media[0]?.alt ?? listing.title;
 
@@ -368,7 +368,7 @@ function renderListing() {
 
           <img
             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            src="${baseURL}src/assets/icons/edit-circle.svg"
+            src="${baseURL}assets/icons/edit-circle.svg"
             alt=""
           />
         </div>
