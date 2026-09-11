@@ -2,7 +2,13 @@ import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu";
 import { renderHeader } from "../components/header";
 import { renderFooter } from "../components/footer";
-import { createListing, editListing, getSingleListing } from "../api/listings";
+import {
+  createListing,
+  editListing,
+  getSingleListing,
+  deleteListing,
+} from "../api/listings";
+import { renderConfirmationMessage } from "../components/confirmationMessage";
 
 renderFooter();
 renderHeader();
@@ -93,6 +99,7 @@ function renderListingForm() {
     <!-- Buttons  -->
     <div class="flex gap-3">
       <button
+        id="delete-button"
         class="flex-1 h-12 w-full border-2 rounded-full hover:bg-brand hover:border-brand hover:text-white"
         type="button"
       >
@@ -129,6 +136,7 @@ const listingAlertContainer = document.querySelector<HTMLDivElement>(
 const listingAlert = document.querySelector<HTMLParagraphElement>(
   "#listing-form-alert-text",
 );
+const deleteBtn = document.querySelector<HTMLButtonElement>("#delete-button");
 
 if (
   !listingTitle ||
@@ -137,7 +145,8 @@ if (
   !listingDescription ||
   !listingEndsAt ||
   !listingAlertContainer ||
-  !listingAlert
+  !listingAlert ||
+  !deleteBtn
 ) {
   throw new Error("Listing form element not found");
 }
@@ -240,10 +249,44 @@ listingForm.addEventListener("submit", async (e) => {
       const id = listingData.data.id;
       window.location.href = `../listing/index.html?id=${id}`;
     }
-  } catch (error) {
-    console.error(error);
+  } catch {
     listingAlertContainer.classList.add("flex");
     listingAlertContainer.classList.remove("hidden");
     listingAlert.innerText = "Something went wrong. Give it another try";
   }
+});
+
+deleteBtn.addEventListener("click", () => {
+  if (!listingId) return;
+
+  renderConfirmationMessage(
+    "Delete this listing?",
+    "This action cannot be undone.",
+  );
+
+  const yesButton = document.querySelector<HTMLButtonElement>("#yes-btn");
+  const noButton = document.querySelector<HTMLButtonElement>("#no-btn");
+  const confirmationMessage = document.querySelector<HTMLDivElement>(
+    "#confirmation-message",
+  );
+
+  if (!yesButton || !noButton || !confirmationMessage) {
+    throw new Error("Could not find confirmation elements");
+  }
+
+  noButton.addEventListener("click", () => {
+    confirmationMessage.remove();
+  });
+
+  yesButton.addEventListener("click", async () => {
+    try {
+      await deleteListing(listingId);
+
+      window.location.href = "../profile/index.html";
+    } catch {
+      listingAlertContainer.classList.add("flex");
+      listingAlertContainer.classList.remove("hidden");
+      listingAlert.innerText = "Something went wrong. Give it another try";
+    }
+  });
 });

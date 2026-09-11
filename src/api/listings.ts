@@ -60,3 +60,13 @@ export async function editListing(id: string, params: EditListingsParams) {
     true,
   );
 }
+
+export async function deleteListing(id: string) {
+  return apiRequest(
+    `/auction/listings/${id}`,
+    {
+      method: "DELETE",
+    },
+    true,
+  );
+}
