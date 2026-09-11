@@ -1,5 +1,8 @@
-import type { CreateListingsParams } from "../types/listings";
 import { apiRequest } from "./client";
+import type {
+  CreateListingsParams,
+  EditListingsParams,
+} from "../types/listings";
 
 export async function getListings(page: number) {
   return apiRequest(
