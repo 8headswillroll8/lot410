@@ -44,3 +44,13 @@ export interface CreateEditProfileParams {
     alt: string;
   };
 }
+
+export interface EditListingsParams {
+  title?: string;
+  description?: string[];
+  tags?: string;
+  media?: {
+    url: string;
+    alt: string;
+  }[];
+}

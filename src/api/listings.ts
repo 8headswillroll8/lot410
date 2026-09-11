@@ -43,3 +43,17 @@ export async function createListing(params: CreateListingsParams) {
     true,
   );
 }
+
+export async function editListing(id: string, params: EditListingsParams) {
+  return apiRequest(
+    `/auction/listings/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    },
+    true,
+  );
+}
