@@ -244,6 +244,6 @@ listingForm.addEventListener("submit", async (e) => {
     console.error(error);
     listingAlertContainer.classList.add("flex");
     listingAlertContainer.classList.remove("hidden");
-    listingAlert.innerText = "That didn't go up for auction. Try again";
+    listingAlert.innerText = "Something went wrong. Give it another try";
   }
 });
