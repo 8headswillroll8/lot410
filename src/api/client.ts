@@ -20,6 +20,11 @@ export async function apiRequest(
   const url = API_BASE_URL + endpoint;
 
   const response = await fetch(url, options);
+
+  if (response.status === 204) {
+    return;
+  }
+
   const data = await response.json();
 
   if (!response.ok) {
