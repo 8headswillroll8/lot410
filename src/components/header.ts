@@ -1,4 +1,5 @@
 import { logout } from "../utils/logout.ts";
+import { getProfile } from "../api/profile.ts";
 
 const header = document.querySelector("header");
 const baseURL = import.meta.env.BASE_URL;
@@ -28,7 +29,7 @@ export function renderHeader() {
           class="auth-logged-in hidden items-center gap-1"
         >
           <img class="w-4" src="${baseURL}assets/icons/coin-stack.svg" alt="" />
-          <p>1,240</p>
+          <p class="user-credit">0</p>
 
           <a href="${baseURL}profile/index.html">
             <img
@@ -72,7 +73,7 @@ export function renderHeader() {
           <li id="desktop-user-summary" class="auth-logged-in hidden">
             <div class="flex items-center gap-1">
               <img class="w-4" src="${baseURL}assets/icons/coin-stack.svg" alt="" />
-              <p>1,240</p>
+              <p class="user-credit">0</p>
 
               <a href="${baseURL}profile/index.html">
                 <img
@@ -170,11 +171,29 @@ export function renderHeader() {
     loggedOutElements.forEach((element) => {
       element.classList.add("hidden");
     });
+
+    getCredit();
   }
 
   const logoutBtns = document.querySelectorAll(".logout-btn");
 
   logoutBtns.forEach((button) => {
     button.addEventListener("click", logout);
+  });
+}
+
+async function getCredit() {
+  const user = localStorage.getItem("name");
+
+  if (!user) return;
+
+  const data = await getProfile(user);
+
+  const credit = data.data.credits;
+
+  const creditElements = document.querySelectorAll(".user-credit");
+
+  creditElements.forEach((element) => {
+    element.textContent = String(credit);
   });
 }
