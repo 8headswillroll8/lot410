@@ -369,11 +369,13 @@ function renderListing() {
             class="absolute inset-0 bg-brand opacity-0 transition-opacity group-hover:opacity-100"
           ></div>
 
-          <img
-            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            src="${baseURL}assets/icons/edit-circle.svg"
-            alt=""
-          />
+          <a href="${baseURL}listing-form/index.html?id=${listing.id}">
+            <img
+              class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              src="${baseURL}assets/icons/edit-circle.svg"
+              alt=""
+            />
+          </a>
         </div>
 
         <div>

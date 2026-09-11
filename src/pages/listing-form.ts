@@ -2,17 +2,29 @@ import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu";
 import { renderHeader } from "../components/header";
 import { renderFooter } from "../components/footer";
-import { createListing } from "../api/listings";
+import { createListing, editListing, getSingleListing } from "../api/listings";
 
 renderFooter();
 renderHeader();
 setupMobileMenu();
 
 const listingFormEl = document.querySelector<HTMLFormElement>(".listing-form");
+const title = document.querySelector<HTMLHeadingElement>(
+  "#listing-form-heading",
+);
 
-if (!listingFormEl) {
+const urlParams = new URLSearchParams(window.location.search);
+const listingId = urlParams.get("id");
+
+const isEditMode = Boolean(listingId);
+
+const submitText = isEditMode ? "Save changes" : "Put it up for auction";
+
+if (!listingFormEl || !title) {
   throw new Error("Listing form element not found");
 }
+
+title.innerText = isEditMode ? "Edit listing" : "New listing";
 
 const listingForm = listingFormEl;
 
@@ -90,7 +102,7 @@ function renderListingForm() {
         class="flex-2 h-12 w-full rounded-full bg-brand text-white hover:rounded-none"
         type="submit"
       >
-        Put it up for auction
+        ${submitText}
       </button>
     </div>
   `;
@@ -128,6 +140,18 @@ if (
   !listingAlert
 ) {
   throw new Error("Listing form element not found");
+}
+
+if (listingId) {
+  const data = await getSingleListing(listingId);
+
+  const listing = data.data;
+
+  listingTitle.value = listing.title;
+  listingImageUrl.value = listing.media[0].url;
+  listingImageAlt.value = listing.media[0].alt;
+  listingDescription.value = listing.description;
+  listingEndsAt.value = listing.endsAt.slice(0, 16);
 }
 
 listingForm.addEventListener("submit", async (e) => {
@@ -171,7 +195,7 @@ listingForm.addEventListener("submit", async (e) => {
   if (description.length > 280) {
     listingAlertContainer.classList.add("flex");
     listingAlertContainer.classList.remove("hidden");
-    listingAlert.innerText = "Keep your description under 1000 characters";
+    listingAlert.innerText = "Keep your description under 280 characters";
     return;
   }
 
@@ -182,7 +206,18 @@ listingForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  const params = {
+  const editParams = {
+    title: title,
+    description: description,
+    media: [
+      {
+        url: imageUrl,
+        alt: imageAlt,
+      },
+    ],
+  };
+
+  const createParams = {
     title: title,
     description: description,
     media: [
@@ -195,12 +230,16 @@ listingForm.addEventListener("submit", async (e) => {
   };
 
   try {
-    console.log("about to create listing", params);
-    const listingData = await createListing(params);
+    if (listingId) {
+      await editListing(listingId, editParams);
 
-    const id = listingData.data.id;
+      window.location.href = `../listing/index.html?id=${listingId}`;
+    } else {
+      const listingData = await createListing(createParams);
 
-    window.location.href = `../listing/index.html?id=${id}`;
+      const id = listingData.data.id;
+      window.location.href = `../listing/index.html?id=${id}`;
+    }
   } catch (error) {
     console.error(error);
     listingAlertContainer.classList.add("flex");

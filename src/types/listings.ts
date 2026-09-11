@@ -47,10 +47,10 @@ export interface CreateEditProfileParams {
 
 export interface EditListingsParams {
   title?: string;
-  description?: string;
+  description?: string[];
   tags?: string;
   media?: {
     url: string;
     alt: string;
-  };
+  }[];
 }
