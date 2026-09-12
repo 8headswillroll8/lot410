@@ -301,8 +301,16 @@ try {
       try {
         await bidOnListings(id, bidParams);
 
+        const updatedListingData = await getSingleListing(id);
+        const updatedListing = updatedListingData.data;
+
+        renderSingleListing(updatedListing, isOwnListing, hasEnded);
+        renderBiddingActivity(updatedListing);
+
         bidAlert.textContent = "Bid placed. Now we wait.";
-      } catch {
+      } catch (error) {
+        console.error(error);
+
         bidAlert.textContent = "That bid didn't make it through. Try again.";
       }
     });
