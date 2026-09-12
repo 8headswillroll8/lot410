@@ -2,8 +2,9 @@ import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu";
 import { renderHeader } from "../components/header";
 import { renderFooter } from "../components/footer";
-import { getSingleListing } from "../api/listings";
+import { bidOnListings, getSingleListing } from "../api/listings";
 import type { Listing } from "../types/listings";
+import { getProfile } from "../api/profile";
 import { getTimeAgo, timeLeft, sortBidsByHighest } from "../utils/listingUtils";
 
 renderHeader();
@@ -121,7 +122,8 @@ function renderSingleListing(listing: Listing) {
       </div>
 
       <div class="flex mx-6 lg:mx-15">
-        <form class="flex flex-col w-full">
+        <form id="bid-form"
+        class="flex flex-col w-full">
           <div class="flex flex-row mb-4 border-b-2 xl:mb-8">
             <label for="listing-bid" class="sr-only">
               Place bid here
@@ -148,6 +150,7 @@ function renderSingleListing(listing: Listing) {
           >
             Place bid
           </button>
+          <p id="bid-alert" class="pt-4"></p>
         </form>
       </div>
     </div>
@@ -189,14 +192,75 @@ try {
     throw new Error("id is missing");
   }
 
-  getSingleListing(id).then((data) => {
+  getSingleListing(id).then(async (data) => {
     const listing = data.data;
 
     renderSingleListing(listing);
     renderBiddingActivity(listing);
+
+    const bidForm = document.querySelector<HTMLFormElement>("#bid-form");
+    const listingBid = document.querySelector<HTMLInputElement>("#listing-bid");
+    const bidAlert = document.querySelector<HTMLParagraphElement>("#bid-alert");
+
+    const sortedBids = sortBidsByHighest(listing.bids);
+    const currentBid = sortedBids[0]?.amount ?? 0;
+    const minimumBid = currentBid + 1;
+
+    const username = localStorage.getItem("name");
+
+    if (!username) {
+      throw new Error("Could not find username");
+    }
+
+    const userProfile = await getProfile(username);
+    console.log(userProfile);
+
+    const userCredits = userProfile.data.credits;
+    console.log(userCredits);
+
+    if (!bidForm || !bidAlert || !listingBid) {
+      throw new Error("Could not find bid element");
+    }
+
+    bidForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const bidAmount = Number(listingBid.value);
+
+      if (bidAmount === 0) {
+        bidAlert.textContent = "You'll need to bid something.";
+        return;
+      }
+
+      if (bidAmount < minimumBid) {
+        bidAlert.textContent = "Someone's already gone higher.";
+        return;
+      }
+
+      if (bidAmount > userCredits) {
+        bidAlert.textContent = "Your credits can't cover that one.";
+        return;
+      }
+
+      const bidParams = {
+        amount: bidAmount,
+      };
+
+      try {
+        const bidData = await bidOnListings(id, bidParams);
+        console.log(bidData);
+
+        bidAlert.textContent = "Bid placed. Now we wait.";
+      } catch {
+        bidAlert.textContent = "That bid didn't make it through. Try again.";
+      }
+    });
   });
 } catch {
   listingAlert.classList.remove("hidden");
   listingAlert.classList.add("flex");
   listingAlertText.textContent = "Error message here";
 }
+
+// 4. Listing has already ended
+// 5. User is bidding on their own listing

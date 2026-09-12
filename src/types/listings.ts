@@ -54,3 +54,7 @@ export interface EditListingsParams {
     alt: string;
   }[];
 }
+
+export interface BidOnListingParams {
+  amount: number;
+}
