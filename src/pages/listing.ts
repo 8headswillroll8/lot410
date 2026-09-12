@@ -23,6 +23,8 @@ const listingAlertText = document.querySelector<HTMLParagraphElement>(
 );
 
 const baseURL = import.meta.env.BASE_URL;
+const loggedIn = localStorage.getItem("accessToken");
+const isLoggedIn = Boolean(loggedIn);
 
 if (
   !singleListingEl ||
@@ -36,7 +38,11 @@ if (
 const singleListing = singleListingEl;
 const biddingActivity = biddingActivityEl;
 
-function renderSingleListing(listing: Listing) {
+function renderSingleListing(
+  listing: Listing,
+  isOwnListing: boolean,
+  hasEnded: boolean,
+) {
   const lastBid = listing.bids[listing.bids.length - 1];
 
   const imgUrl =
@@ -121,38 +127,76 @@ function renderSingleListing(listing: Listing) {
         </p>
       </div>
 
-      <div class="flex mx-6 lg:mx-15">
-        <form id="bid-form"
-        class="flex flex-col w-full">
-          <div class="flex flex-row mb-4 border-b-2 xl:mb-8">
-            <label for="listing-bid" class="sr-only">
-              Place bid here
-            </label>
+      ${
+        hasEnded
+          ? `
+            <div class="mx-6 lg:mx-15">
+              <p class="mb-2 text-center">
+                Going once, going twice... gone.
+              </p>
 
-            <img
-              class="w-7"
-              src="${baseURL}assets/icons/gavel.svg"
-              alt=""
-            />
+              <p class="mb-4 text-center">
+                This one's done, but there's more worth bidding on.
+              </p>
 
-            <input
-              class="flex-1 bg-transparent outline-none placeholder:text-brand"
-              type="number"
-              id="listing-bid"
-              name="listing-bid"
-              placeholder="Your bid here, ${minimumBid} credits or more"
-            />
-          </div>
+              <a
+                class="flex h-12.5 items-center justify-center rounded-full bg-brand text-white hover:rounded-none"
+                href="${baseURL}listings/index.html"
+              >
+                Find another one
+              </a>
+            </div>
+          `
+          : isOwnListing
+            ? ""
+            : `
+              <div class="flex mx-6 lg:mx-15">
+                <form id="bid-form" class="flex flex-col w-full">
+                  <div class="flex flex-row mb-4 border-b-2 xl:mb-8">
+                    <label for="listing-bid" class="sr-only">
+                      Place bid here
+                    </label>
 
-          <button
-            class="h-12.5 rounded-full bg-brand text-white hover:rounded-none"
-            type="submit"
-          >
-            Place bid
-          </button>
-          <p id="bid-alert" class="pt-4"></p>
-        </form>
-      </div>
+                    <img
+                      class="w-7"
+                      src="${baseURL}assets/icons/gavel.svg"
+                      alt=""
+                    />
+
+                    <input
+                      class="flex-1 bg-transparent outline-none placeholder:text-brand"
+                      type="number"
+                      id="listing-bid"
+                      name="listing-bid"
+                      placeholder="Your bid here, ${minimumBid} credits or more"
+                    />
+                  </div>
+
+                  ${
+                    !isLoggedIn
+                      ? `
+                        <a
+                          class="flex h-12.5 items-center justify-center rounded-full bg-brand text-white hover:rounded-none"
+                          href="${baseURL}login/index.html"
+                        >
+                          Log in to bid
+                        </a>
+                      `
+                      : `
+                        <button
+                          class="h-12.5 rounded-full bg-brand text-white hover:rounded-none"
+                          type="submit"
+                        >
+                          Place bid
+                        </button>
+                      `
+                  }
+
+                  <p id="bid-alert" class="pt-4"></p>
+                </form>
+              </div>
+            `
+      }
     </div>
   `;
 }
@@ -195,32 +239,40 @@ try {
   getSingleListing(id).then(async (data) => {
     const listing = data.data;
 
-    renderSingleListing(listing);
+    const username = localStorage.getItem("name");
+    const isOwnListing = listing.seller.name === username;
+
+    const hasEnded = new Date(listing.endsAt).getTime() <= Date.now();
+
+    renderSingleListing(listing, isOwnListing, hasEnded);
     renderBiddingActivity(listing);
+
+    if (hasEnded) {
+      return;
+    }
+
+    if (!username) {
+      return;
+    }
+
+    if (isOwnListing) {
+      return;
+    }
 
     const bidForm = document.querySelector<HTMLFormElement>("#bid-form");
     const listingBid = document.querySelector<HTMLInputElement>("#listing-bid");
     const bidAlert = document.querySelector<HTMLParagraphElement>("#bid-alert");
 
+    if (!bidForm || !bidAlert || !listingBid) {
+      throw new Error("Could not find bid element");
+    }
+
     const sortedBids = sortBidsByHighest(listing.bids);
     const currentBid = sortedBids[0]?.amount ?? 0;
     const minimumBid = currentBid + 1;
 
-    const username = localStorage.getItem("name");
-
-    if (!username) {
-      throw new Error("Could not find username");
-    }
-
     const userProfile = await getProfile(username);
-    console.log(userProfile);
-
     const userCredits = userProfile.data.credits;
-    console.log(userCredits);
-
-    if (!bidForm || !bidAlert || !listingBid) {
-      throw new Error("Could not find bid element");
-    }
 
     bidForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -247,8 +299,7 @@ try {
       };
 
       try {
-        const bidData = await bidOnListings(id, bidParams);
-        console.log(bidData);
+        await bidOnListings(id, bidParams);
 
         bidAlert.textContent = "Bid placed. Now we wait.";
       } catch {
@@ -261,6 +312,3 @@ try {
   listingAlert.classList.add("flex");
   listingAlertText.textContent = "Error message here";
 }
-
-// 4. Listing has already ended
-// 5. User is bidding on their own listing

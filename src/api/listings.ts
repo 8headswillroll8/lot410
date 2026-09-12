@@ -17,7 +17,7 @@ export async function getListings(page: number) {
 
 export async function getSingleListing(id: string) {
   return apiRequest(
-    `/auction/listings/${id}?_bids=true`,
+    `/auction/listings/${id}?_bids=true&_seller=true`,
     {
       method: "GET",
     },
