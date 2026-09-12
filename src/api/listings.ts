@@ -2,6 +2,7 @@ import { apiRequest } from "./client";
 import type {
   CreateListingsParams,
   EditListingsParams,
+  BidOnListingParams,
 } from "../types/listings";
 
 export async function getListings(page: number) {
@@ -66,6 +67,20 @@ export async function deleteListing(id: string) {
     `/auction/listings/${id}`,
     {
       method: "DELETE",
+    },
+    true,
+  );
+}
+
+export async function bidOnListings(id: string, params: BidOnListingParams) {
+  return apiRequest(
+    `/auction/listings/${id}/bids`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
     },
     true,
   );
