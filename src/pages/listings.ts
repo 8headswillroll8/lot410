@@ -196,9 +196,11 @@ function setupFilters() {
 
       controlButtons.forEach((controlButton) => {
         controlButton.setAttribute("aria-pressed", "false");
+        controlButton.classList.remove("bg-brand", "text-white");
       });
 
       button.setAttribute("aria-pressed", "true");
+      button.classList.add("bg-brand", "text-white");
 
       if (filter === "hot") {
         renderListings(filterHotListings(currentListings));

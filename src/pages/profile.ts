@@ -443,64 +443,64 @@ function renderListing() {
         : "";
 
     listingContainer.innerHTML += `
-        <article
-          class="mx-6 grid grid-cols-2 gap-y-3 border-b border-brand pb-6 text-[16px] sm:grid-cols-3 md:mx-0 md:grid-cols-5 md:items-center"
-        >
-          <div class="group relative w-19.25">
-            <img
-              class="aspect-square h-full w-full object-cover"
-              src="${imageUrl}"
-              alt="${imageAlt}"
-            />
+      <article
+        class="mx-6 grid grid-cols-2 gap-y-3 border-b border-brand pb-6 text-[16px] sm:grid-cols-3 md:mx-0 md:grid-cols-5 md:items-center"
+      >
+        <div class="group relative w-19.25">
+          <img
+            class="aspect-square h-full w-full object-cover"
+            src="${imageUrl}"
+            alt="${imageAlt}"
+          />
 
-            ${
-              currentView === "listings"
-                ? `
-                  <div
-                    class="absolute inset-0 bg-brand opacity-0 transition-opacity group-hover:opacity-100"
-                  ></div>
-                `
-                : ""
-            }
+          ${
+            currentView === "listings"
+              ? `
+                <div
+                  class="absolute inset-0 bg-brand opacity-0 transition-opacity group-hover:opacity-100"
+                ></div>
+              `
+              : ""
+          }
 
-            ${editButton}
-          </div>
+          ${editButton}
+        </div>
 
-          <div>
-            <p class="font-bold">
-              Item
-            </p>
+        <div>
+          <p class="font-bold">
+            Item
+          </p>
 
-            <p>${titleDisplay}</p>
-          </div>
+          <p>${titleDisplay}</p>
+        </div>
 
-          <div>
-            <p class="font-bold">
-              Ends in
-            </p>
+        <div>
+          <p class="font-bold">
+            Ends in
+          </p>
 
-            <p>${timeDisplay}</p>
-          </div>
+          <p>${timeDisplay}</p>
+        </div>
 
-          <div>
-            <p class="font-bold">
-              Current bid
-            </p>
+        <div>
+          <p class="font-bold">
+            Current bid
+          </p>
 
-            <p>${highestCredit}</p>
-          </div>
+          <p>${highestCredit}</p>
+        </div>
 
-          <div>
-            <p class="font-bold">
-              Bids
-            </p>
+        <div>
+          <p class="font-bold">
+            Bids
+          </p>
 
-            <p>
-              ${listing._count.bids}
-            </p>
-          </div>
-        </article>
-      `;
+          <p>
+            ${listing._count.bids}
+          </p>
+        </div>
+      </article>
+    `;
   });
 }
 
@@ -525,9 +525,24 @@ function setupEditButton() {
   });
 }
 
+function updateFilterButtons() {
+  filterButtons.forEach((button) => {
+    const isActive = button.dataset.filter === currentFilter;
+
+    button.setAttribute("aria-pressed", String(isActive));
+
+    if (isActive) {
+      button.classList.add("bg-brand", "text-white");
+    } else {
+      button.classList.remove("bg-brand", "text-white");
+    }
+  });
+}
+
 renderProfileHeader();
 setupEditButton();
 renderListing();
+updateFilterButtons();
 
 currListingsBtn.addEventListener("click", () => {
   currentView = "listings";
@@ -549,12 +564,7 @@ filterButtons.forEach((button) => {
 
     currentFilter = filter;
 
-    filterButtons.forEach((filterButton) => {
-      filterButton.setAttribute("aria-pressed", "false");
-    });
-
-    button.setAttribute("aria-pressed", "true");
-
+    updateFilterButtons();
     renderListing();
   });
 });
