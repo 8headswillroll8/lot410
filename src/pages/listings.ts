@@ -6,6 +6,12 @@ import { renderHeader } from "../components/header";
 import { setupMobileMenu } from "../components/mobileMenu";
 import { renderSearchBar } from "../components/searchBar";
 import type { Listing } from "../types/listings";
+import {
+  filterHotListings,
+  filterNoBidsListings,
+  filterStealsListings,
+  sortEndingSoonListings,
+} from "../utils/listingFilters";
 import { sortBidsByHighest } from "../utils/listingUtils";
 
 renderFooter();
@@ -50,38 +56,6 @@ async function loadListings(page: number) {
   currentListings = data.data;
 
   renderListings(currentListings);
-}
-
-function filterHotListings(listings: Listing[]) {
-  return listings.filter((listing) => listing.bids.length > 5);
-}
-
-function filterStealsListings(listings: Listing[]) {
-  return listings.filter((listing) => {
-    const sortedBids = sortBidsByHighest(listing.bids);
-    const highestCredit = sortedBids[0]?.amount ?? 0;
-
-    return highestCredit < 100 && listing.bids.length > 0;
-  });
-}
-
-function filterNoBidsListings(listings: Listing[]) {
-  return listings.filter((listing) => listing.bids.length === 0);
-}
-
-function sortEndingSoonListings(listings: Listing[]) {
-  const now = new Date();
-
-  return listings
-    .filter((listing) => {
-      const endTime = new Date(listing.endsAt);
-      const timeLeft = endTime.getTime() - now.getTime();
-
-      return timeLeft > 0;
-    })
-    .sort(
-      (a, b) => new Date(a.endsAt).getTime() - new Date(b.endsAt).getTime(),
-    );
 }
 
 function renderListings(listings: Listing[]) {
