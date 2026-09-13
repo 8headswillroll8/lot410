@@ -34,7 +34,7 @@ export interface CreateListingsParams {
   endsAt: string;
 }
 
-export interface CreateEditProfileParams {
+export interface EditProfileParams {
   avatar: {
     url: string;
     alt: string;

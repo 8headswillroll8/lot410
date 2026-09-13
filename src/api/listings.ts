@@ -5,6 +5,12 @@ import type {
   BidOnListingParams,
 } from "../types/listings";
 
+/**
+ * Fetches a paginated list of auction listings, including bids.
+ *
+ * @param page - Page number to fetch.
+ * @returns The listings response from the API.
+ */
 export async function getListings(page: number) {
   return apiRequest(
     `/auction/listings?_bids=true&sort=created&sortOrder=desc&page=${page}&limit=16`,
@@ -15,6 +21,12 @@ export async function getListings(page: number) {
   );
 }
 
+/**
+ * Fetches a single listing with bids and seller information.
+ *
+ * @param id - ID of the listing to fetch.
+ * @returns The listing data from the API.
+ */
 export async function getSingleListing(id: string) {
   return apiRequest(
     `/auction/listings/${id}?_bids=true&_seller=true`,
@@ -25,6 +37,12 @@ export async function getSingleListing(id: string) {
   );
 }
 
+/**
+ * Searches auction listings using the provided search term.
+ *
+ * @param searchInput - Search term entered by the user.
+ * @returns Matching listings from the API.
+ */
 export async function getSearchResults(searchInput: string) {
   return apiRequest(
     `/auction/listings/search?q=${encodeURIComponent(searchInput)}&_bids=true`,
@@ -34,6 +52,12 @@ export async function getSearchResults(searchInput: string) {
   );
 }
 
+/**
+ * Creates a new auction listing.
+ *
+ * @param params - Data for the new listing.
+ * @returns The created listing.
+ */
 export async function createListing(params: CreateListingsParams) {
   return apiRequest(
     "/auction/listings",
@@ -48,6 +72,13 @@ export async function createListing(params: CreateListingsParams) {
   );
 }
 
+/**
+ * Updates an existing auction listing.
+ *
+ * @param id - ID of the listing to update.
+ * @param params - Updated listing data.
+ * @returns The updated listing.
+ */
 export async function editListing(id: string, params: EditListingsParams) {
   return apiRequest(
     `/auction/listings/${id}`,
@@ -62,6 +93,12 @@ export async function editListing(id: string, params: EditListingsParams) {
   );
 }
 
+/**
+ * Deletes an auction listing.
+ *
+ * @param id - ID of the listing to delete.
+ * @returns Nothing when the deletion succeeds.
+ */
 export async function deleteListing(id: string) {
   return apiRequest(
     `/auction/listings/${id}`,
@@ -72,7 +109,14 @@ export async function deleteListing(id: string) {
   );
 }
 
-export async function bidOnListings(id: string, params: BidOnListingParams) {
+/**
+ * Places a bid on an auction listing.
+ *
+ * @param id - ID of the listing to bid on.
+ * @param params - Bid data, including the bid amount.
+ * @returns The updated listing data.
+ */
+export async function bidOnListing(id: string, params: BidOnListingParams) {
   return apiRequest(
     `/auction/listings/${id}/bids`,
     {

@@ -1,5 +1,18 @@
 export const API_BASE_URL = "https://v2.api.noroff.dev";
 
+/**
+ * Sends a request to the Noroff API.
+ *
+ * Adds the access token and API key when authentication is required.
+ * Returns parsed JSON data, or nothing for 204 responses.
+ *
+ * @param endpoint - API endpoint appended to the base URL.
+ * @param options - Fetch configuration such as method, headers, and body.
+ * @param auth - Whether authentication headers should be added.
+ * @returns The parsed response data, or undefined for a 204 response.
+ * @throws Error when the API response is not successful.
+ */
+
 export async function apiRequest(
   endpoint: string,
   options: RequestInit,
@@ -28,7 +41,7 @@ export async function apiRequest(
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error("Login failed");
+    throw new Error("API request failed");
   }
 
   return data;

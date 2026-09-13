@@ -2,7 +2,7 @@ import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu";
 import { renderHeader } from "../components/header";
 import { renderFooter } from "../components/footer";
-import { bidOnListings, getSingleListing } from "../api/listings";
+import { bidOnListing, getSingleListing } from "../api/listings";
 import type { Listing } from "../types/listings";
 import { getProfile } from "../api/profile";
 import { getTimeAgo, timeLeft, sortBidsByHighest } from "../utils/listingUtils";
@@ -299,7 +299,7 @@ try {
       };
 
       try {
-        await bidOnListings(id, bidParams);
+        await bidOnListing(id, bidParams);
 
         const updatedListingData = await getSingleListing(id);
         const updatedListing = updatedListingData.data;

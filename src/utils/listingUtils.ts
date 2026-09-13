@@ -1,5 +1,11 @@
 import type { Bid } from "../types/listings";
 
+/**
+ * Formats a creation date as elapsed time from now.
+ *
+ * @param created - The creation date as a date string.
+ * @returns A formatted string such as "2d ago", "3h ago", or "just now".
+ */
 export function getTimeAgo(created: string) {
   const createdTime = new Date(created);
   const now = new Date();
@@ -17,7 +23,12 @@ export function getTimeAgo(created: string) {
 
   return "just now";
 }
-
+/**
+ * Calculates and formats the remaining time for an auction.
+ *
+ * @param endsAt - The auction end date as a date string.
+ * @returns A formatted string such as "2d left", "3h left", or "Ended".
+ */
 export function timeLeft(endsAt: string) {
   const endingTime = new Date(endsAt);
   const now = new Date();
@@ -36,6 +47,12 @@ export function timeLeft(endsAt: string) {
   return "Ended";
 }
 
+/**
+ * Sorts bids from highest to lowest without modifying the original array.
+ *
+ * @param bids - The bids to sort.
+ * @returns A new array sorted by bid amount in descending order.
+ */
 export function sortBidsByHighest(bids: Bid[]) {
   return [...bids].sort((a, b) => b.amount - a.amount);
 }
