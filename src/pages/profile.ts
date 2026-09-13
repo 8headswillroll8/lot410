@@ -2,6 +2,7 @@ import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu";
 import { renderHeader } from "../components/header";
 import { renderFooter } from "../components/footer";
+import { showAlert } from "../components/alert";
 import {
   getProfile,
   getProfileListings,
@@ -9,25 +10,42 @@ import {
   editProfile,
 } from "../api/profile";
 import type { Listing } from "../types/listings";
+import { sortBidsByHighest } from "../utils/listingUtils";
 
 renderFooter();
 renderHeader();
 setupMobileMenu();
 
 const headerEl = document.querySelector<HTMLElement>("#profile-header");
+
 const listingsEl = document.querySelector<HTMLDivElement>("#profile-listings");
+
 const currListingsBtn = document.querySelector<HTMLButtonElement>(
   "#current-listings-button",
 );
+
 const biddingHistoryBtn = document.querySelector<HTMLButtonElement>(
   "#bidding-history-button",
 );
+
 const filterButtons = document.querySelectorAll<HTMLButtonElement>(
   ".filter-buttons button",
 );
+
 const editProfileEl = document.querySelector<HTMLElement>("#profile-edit");
 
+const emptyStateEl = document.querySelector<HTMLElement>(
+  "#profile-empty-state",
+);
+
+const emptyStateText = document.querySelector<HTMLParagraphElement>(
+  "#profile-empty-state-text",
+);
+
+const profileAlert = document.querySelector<HTMLElement>("#profile-alert");
+
 const baseURL = import.meta.env.BASE_URL;
+
 const name = localStorage.getItem("name");
 
 let currentView = "listings";
@@ -39,6 +57,9 @@ if (
   !currListingsBtn ||
   !biddingHistoryBtn ||
   !editProfileEl ||
+  !emptyStateEl ||
+  !emptyStateText ||
+  !profileAlert ||
   filterButtons.length === 0
 ) {
   throw new Error("Profile elements not found");
@@ -48,21 +69,44 @@ if (!name) {
   throw new Error("Logged-in user name not found");
 }
 
-/*
- * Safe references after null guards.
- * TypeScript now knows these cannot be null.
- */
 const header = headerEl;
 const listingContainer = listingsEl;
 const editProfileContainer = editProfileEl;
 const profileName = name;
 
-const profileData = await getProfile(profileName);
-const listingData = await getProfileListings(profileName);
-const biddingHistoryData = await getBiddingHistory(profileName);
+async function loadProfileData() {
+  try {
+    const [profileData, listingData, biddingHistoryData] = await Promise.all([
+      getProfile(profileName),
+      getProfileListings(profileName),
+      getBiddingHistory(profileName),
+    ]);
 
-const profileListings = listingData.data;
-const biddingHistory = biddingHistoryData.data;
+    return {
+      profileData,
+      profileListings: listingData.data,
+      biddingHistory: biddingHistoryData.data,
+    };
+  } catch (error) {
+    console.error(error);
+
+    showAlert(
+      profileAlert,
+      "error",
+      "Well, this is awkward. We couldn't load your profile. Try again.",
+    );
+
+    return null;
+  }
+}
+
+const loadedProfile = await loadProfileData();
+
+if (!loadedProfile) {
+  throw new Error("Profile data could not be loaded");
+}
+
+const { profileData, profileListings, biddingHistory } = loadedProfile;
 
 function renderProfileHeader() {
   header.innerHTML = `
@@ -86,7 +130,9 @@ function renderProfileHeader() {
       </button>
 
       <!-- Avatar -->
-      <div class="absolute left-5 bottom-0 w-30 translate-y-5 md:w-50">
+      <div
+        class="absolute left-5 bottom-0 w-30 translate-y-5 md:w-50"
+      >
         <img
           class="aspect-square w-full rounded-full object-cover"
           src="${profileData.data.avatar.url}"
@@ -96,9 +142,13 @@ function renderProfileHeader() {
     </div>
 
     <!-- Profile info -->
-    <div class="mx-6 flex flex-col pt-8 sm:flex-row sm:justify-between">
+    <div
+      class="mx-6 flex flex-col pt-8 sm:flex-row sm:justify-between"
+    >
       <div>
-        <h1 class="font-sans text-[20px] font-normal md:text-[24px]">
+        <h1
+          class="font-sans text-[20px] font-normal md:text-[24px]"
+        >
           ${profileData.data.name}
         </h1>
 
@@ -125,6 +175,7 @@ function renderProfileHeader() {
 
 function closeEditProfile() {
   editProfileContainer.classList.remove("translate-y-0", "opacity-100");
+
   editProfileContainer.classList.add("-translate-y-4", "opacity-0");
 
   setTimeout(() => {
@@ -204,18 +255,10 @@ function renderEditProfile() {
 
       <!-- Alert -->
       <div
-        class="hidden items-start gap-2 pt-3"
         id="profile-edit-alert"
+        class="hidden pt-3"
         aria-live="polite"
-      >
-        <img
-          class="mt-1 w-7"
-          src="${baseURL}assets/icons/alert-circle.svg"
-          alt=""
-        />
-
-        <p id="profile-edit-alert-text"></p>
-      </div>
+      ></div>
     </form>
   `;
 
@@ -231,12 +274,8 @@ function renderEditProfile() {
     "#edit-profile-header-img",
   );
 
-  const profileAlertContainer = document.querySelector<HTMLDivElement>(
+  const profileEditAlert = document.querySelector<HTMLElement>(
     "#profile-edit-alert",
-  );
-
-  const profileAlert = document.querySelector<HTMLParagraphElement>(
-    "#profile-edit-alert-text",
   );
 
   if (
@@ -244,8 +283,7 @@ function renderEditProfile() {
     !cancelButton ||
     !editImageInput ||
     !editCoverInput ||
-    !profileAlertContainer ||
-    !profileAlert
+    !profileEditAlert
   ) {
     throw new Error("Edit profile elements could not be found");
   }
@@ -266,6 +304,7 @@ function renderEditProfile() {
           url: avatarUrl,
           alt: "Profile avatar image",
         },
+
         banner: {
           url: bannerUrl,
           alt: "Profile banner image",
@@ -277,18 +316,24 @@ function renderEditProfile() {
       profileData.data = data.data;
 
       renderProfileHeader();
+      setupEditButton();
+
       closeEditProfile();
     } catch {
-      profileAlertContainer.classList.add("flex");
-      profileAlertContainer.classList.remove("hidden");
-
-      profileAlert.innerText = "That change didn't stick. Try again.";
+      showAlert(
+        profileEditAlert,
+        "error",
+        "That change didn't stick. Try again.",
+      );
     }
   });
 }
 
 function renderListing() {
   listingContainer.innerHTML = "";
+
+  emptyStateEl.classList.add("hidden");
+  emptyStateEl.classList.remove("flex");
 
   let listingsToRender: Listing[];
 
@@ -311,17 +356,21 @@ function renderListing() {
   }
 
   if (listingsToRender.length === 0) {
+    emptyStateEl.classList.remove("hidden");
+    emptyStateEl.classList.add("flex");
+
     if (currentView === "listings") {
-      listingContainer.innerText = "You have no listings yet";
+      emptyStateText.textContent = "You haven't listed anything yet.";
     } else {
-      listingContainer.innerText = "You haven't placed any bids yet";
+      emptyStateText.textContent = "You haven't placed any bids yet.";
     }
 
     return;
   }
 
   listingsToRender.forEach((listing: Listing) => {
-    const sortedBids = listing.bids.sort((a, b) => b.amount - a.amount);
+    const sortedBids = sortBidsByHighest(listing.bids);
+
     const highestCredit = sortedBids[0]?.amount ?? 0;
 
     const imageUrl =
@@ -335,11 +384,15 @@ function renderListing() {
     const timeLeft = endTime.getTime() - now.getTime();
 
     const totalSeconds = Math.floor(timeLeft / 1000);
+
     const totalMinutes = Math.floor(totalSeconds / 60);
+
     const totalHours = Math.floor(totalMinutes / 60);
+
     const totalDays = Math.floor(totalHours / 24);
 
     const minutes = Math.floor(totalMinutes % 60);
+
     const hours = Math.floor(totalHours % 24);
 
     let timeDisplay = "Ended";
@@ -353,6 +406,8 @@ function renderListing() {
     if (titleDisplay.length > 25) {
       titleDisplay = titleDisplay.slice(0, 25) + "...";
     }
+
+    const status = timeLeft > 0 ? "Listing active" : "Listing ended";
 
     listingContainer.innerHTML += `
       <article
@@ -369,7 +424,9 @@ function renderListing() {
             class="absolute inset-0 bg-brand opacity-0 transition-opacity group-hover:opacity-100"
           ></div>
 
-          <a href="${baseURL}listing-form/index.html?id=${listing.id}">
+          <a
+            href="${baseURL}listing-form/index.html?id=${listing.id}"
+          >
             <img
               class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
               src="${baseURL}assets/icons/edit-circle.svg"
@@ -400,41 +457,47 @@ function renderListing() {
 
         <div>
           <p class="font-bold">Status</p>
-          <p>Listing active</p>
+          <p>${status}</p>
         </div>
       </article>
     `;
   });
 }
 
-renderProfileHeader();
-renderListing();
+function setupEditButton() {
+  const editButton = document.querySelector<HTMLButtonElement>("#edit-button");
 
-const editButton = document.querySelector<HTMLButtonElement>("#edit-button");
+  if (!editButton) {
+    throw new Error("Edit button could not be found");
+  }
 
-if (!editButton) {
-  throw new Error("Edit button could not be found");
+  editButton.addEventListener("click", () => {
+    renderEditProfile();
+
+    editProfileContainer.classList.remove("-translate-y-4", "opacity-0");
+
+    editProfileContainer.classList.add("translate-y-0", "opacity-100");
+
+    editProfileContainer.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  });
 }
 
-editButton.addEventListener("click", () => {
-  renderEditProfile();
-
-  editProfileContainer.classList.remove("-translate-y-4", "opacity-0");
-  editProfileContainer.classList.add("translate-y-0", "opacity-100");
-
-  editProfileContainer.scrollIntoView({
-    behavior: "smooth",
-    block: "start",
-  });
-});
+renderProfileHeader();
+setupEditButton();
+renderListing();
 
 currListingsBtn.addEventListener("click", () => {
   currentView = "listings";
+
   renderListing();
 });
 
 biddingHistoryBtn.addEventListener("click", () => {
   currentView = "bids";
+
   renderListing();
 });
 
@@ -445,6 +508,13 @@ filterButtons.forEach((button) => {
     if (!filter) return;
 
     currentFilter = filter;
+
+    filterButtons.forEach((filterButton) => {
+      filterButton.setAttribute("aria-pressed", "false");
+    });
+
+    button.setAttribute("aria-pressed", "true");
+
     renderListing();
   });
 });

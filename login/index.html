@@ -2,13 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <link
       rel="icon"
       type="image/svg+xml"
       href="/lot410/assets/icons/gavel.svg"
     />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="../src/style.css" />
+
     <title>Lot410 | Login</title>
   </head>
 
@@ -72,16 +76,11 @@
             Login
           </button>
 
-          <!-- validation messages -->
-          <div class="gap-2 justify-center items-start hidden" id="login-alert">
-            <img
-              id="login-icon"
-              class="w-7 mt-1 md:mt-2"
-              src="/lot410/assets/icons/alert-circle.svg"
-              alt=""
-            />
-            <p id="login-alert-text"></p>
-          </div>
+          <div
+            id="login-alert"
+            class="hidden justify-center"
+            aria-live="polite"
+          ></div>
         </form>
       </div>
     </main>

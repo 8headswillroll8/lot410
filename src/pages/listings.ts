@@ -1,45 +1,47 @@
 import "../style.css";
 import { getListings, getSearchResults } from "../api/listings";
+import { showAlert } from "../components/alert";
 import { renderFooter } from "../components/footer";
 import { renderHeader } from "../components/header";
 import { setupMobileMenu } from "../components/mobileMenu";
 import { renderSearchBar } from "../components/searchBar";
 import type { Listing } from "../types/listings";
+import { sortBidsByHighest } from "../utils/listingUtils";
 
 renderFooter();
 renderHeader();
 renderSearchBar();
 setupMobileMenu();
 
-const gridEl = document.querySelector("#listings-grid");
+const gridEl = document.querySelector<HTMLElement>("#listings-grid");
+
 const searchForm = document.querySelector<HTMLFormElement>("#search-form");
+
 const searchInput =
   document.querySelector<HTMLInputElement>("#listings-search");
-const alertElQuery = document.querySelector<HTMLDivElement>("#listings-alert");
-const alertTextElQuery = document.querySelector<HTMLParagraphElement>(
-  "#listings-alert-text",
-);
+
+const listingsAlert = document.querySelector<HTMLElement>("#listings-alert");
+
 const controlButtons =
   document.querySelectorAll<HTMLButtonElement>(".listing-control");
 
 const baseURL = import.meta.env.BASE_URL;
+
 let currentListings: Listing[] = [];
 
 if (!gridEl) {
   throw new Error("Listings element not found");
 }
 
-if (!alertElQuery || !alertTextElQuery) {
+if (!listingsAlert) {
   throw new Error("Alert element not found");
 }
-
-const alertEl = alertElQuery;
-const alertTextEl = alertTextElQuery;
-const grid = gridEl;
 
 if (!searchForm || !searchInput) {
   throw new Error("Search form elements not found");
 }
+
+const grid = gridEl;
 
 async function loadListings(page: number) {
   const data = await getListings(page);
@@ -49,88 +51,68 @@ async function loadListings(page: number) {
   renderListings(currentListings);
 }
 
+function filterHotListings(listings: Listing[]) {
+  return listings.filter((listing) => listing.bids.length > 5);
+}
+
+function filterStealsListings(listings: Listing[]) {
+  return listings.filter((listing) => {
+    const sortedBids = sortBidsByHighest(listing.bids);
+    const highestCredit = sortedBids[0]?.amount ?? 0;
+
+    return highestCredit < 100 && listing.bids.length > 0;
+  });
+}
+
+function filterNoBidsListings(listings: Listing[]) {
+  return listings.filter((listing) => listing.bids.length === 0);
+}
+
+function sortEndingSoonListings(listings: Listing[]) {
+  const now = new Date();
+
+  return listings
+    .filter((listing) => {
+      const endTime = new Date(listing.endsAt);
+      const timeLeft = endTime.getTime() - now.getTime();
+
+      return timeLeft > 0;
+    })
+    .sort(
+      (a, b) => new Date(a.endsAt).getTime() - new Date(b.endsAt).getTime(),
+    );
+}
+
 function renderListings(listings: Listing[]) {
   grid.innerHTML = "";
 
   if (listings.length === 0) {
-    alertEl.classList.remove("hidden");
-    alertEl.classList.add("flex");
-    alertTextEl.textContent =
-      "Not a single lot in sight. Try searching for something else.";
+    showAlert(
+      listingsAlert,
+      "info",
+      "Not a single lot in sight. Try searching for something else.",
+    );
 
     return;
   }
 
-  function filterHotListings(listings: Listing[]) {
-    return listings.filter((listing) => listing.bids.length > 5);
-  }
-
-  function filterStealsListings(listings: Listing[]) {
-    return listings.filter((listing) => {
-      const sortedBids = listing.bids.sort((a, b) => b.amount - a.amount);
-      const highestCredit = sortedBids[0]?.amount ?? 0;
-
-      return highestCredit < 100 && listing.bids.length > 0;
-    });
-  }
-
-  function filterNoBidsListings(listings: Listing[]) {
-    return listings.filter((listing) => listing.bids.length === 0);
-  }
-
-  function sortEndingSoonListings(listings: Listing[]) {
-    const now = new Date();
-
-    return listings
-      .filter((listing) => {
-        const endTime = new Date(listing.endsAt);
-        const timeLeft = endTime.getTime() - now.getTime();
-
-        return timeLeft > 0;
-      })
-
-      .sort(
-        (a, b) => new Date(a.endsAt).getTime() - new Date(b.endsAt).getTime(),
-      );
-  }
-
-  controlButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const filter = button.dataset.filter;
-
-      if (filter === "hot") {
-        const hotListings = filterHotListings(currentListings);
-        renderListings(hotListings);
-      } else if (filter === "steals") {
-        const stealsListings = filterStealsListings(currentListings);
-        renderListings(stealsListings);
-      } else if (filter === "all") {
-        renderListings(currentListings);
-      } else if (filter === "no-bids") {
-        const noBids = filterNoBidsListings(currentListings);
-        renderListings(noBids);
-      } else if (filter === "ending") {
-        const endingSoon = sortEndingSoonListings(currentListings);
-        renderListings(endingSoon);
-      }
-    });
-  });
-
-  alertEl.classList.add("hidden");
-  alertEl.classList.remove("flex");
+  listingsAlert.classList.add("hidden");
+  listingsAlert.classList.remove("flex");
 
   listings.forEach((listing) => {
-    const sortedBids = listing.bids.sort((a, b) => b.amount - a.amount);
+    const sortedBids = sortBidsByHighest(listing.bids);
     const highestCredit = sortedBids[0]?.amount ?? 0;
 
     const imageUrl =
       listing.media[0]?.url ?? `${baseURL}assets/images/fallback.jpg`;
+
     const imageAlt = listing.media[0]?.alt ?? listing.title;
 
     const endTime = new Date(listing.endsAt);
     const now = new Date();
 
     const timeLeft = endTime.getTime() - now.getTime();
+
     const totalSeconds = Math.floor(timeLeft / 1000);
     const totalMinutes = Math.floor(totalSeconds / 60);
     const totalHours = Math.floor(totalMinutes / 60);
@@ -153,7 +135,10 @@ function renderListings(listings: Listing[]) {
 
     grid.innerHTML += `
       <article class="text-xl">
-        <a class="group" href="${baseURL}listing/index.html?id=${listing.id}">
+        <a
+          class="group"
+          href="${baseURL}listing/index.html?id=${listing.id}"
+        >
           <div class="listing-image-container relative aspect-square">
             <img
               class="listing-image h-full w-full object-cover"
@@ -203,7 +188,43 @@ function renderListings(listings: Listing[]) {
   });
 }
 
-async function paginateListings() {
+function setupFilters() {
+  controlButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filter;
+
+      controlButtons.forEach((controlButton) => {
+        controlButton.setAttribute("aria-pressed", "false");
+      });
+
+      button.setAttribute("aria-pressed", "true");
+
+      if (filter === "hot") {
+        renderListings(filterHotListings(currentListings));
+        return;
+      }
+
+      if (filter === "steals") {
+        renderListings(filterStealsListings(currentListings));
+        return;
+      }
+
+      if (filter === "no-bids") {
+        renderListings(filterNoBidsListings(currentListings));
+        return;
+      }
+
+      if (filter === "ending") {
+        renderListings(sortEndingSoonListings(currentListings));
+        return;
+      }
+
+      renderListings(currentListings);
+    });
+  });
+}
+
+function paginateListings() {
   const paginationButtons = document.querySelectorAll<HTMLButtonElement>(
     ".listing-pagination",
   );
@@ -226,14 +247,17 @@ searchForm.addEventListener("submit", async (event) => {
 
   const searchResults = await getSearchResults(searchValue);
 
-  renderListings(searchResults.data);
+  currentListings = searchResults.data;
+
+  renderListings(currentListings);
 });
 
 searchInput.addEventListener("input", async () => {
-  if (searchInput.value === "") {
+  if (searchInput.value.trim() === "") {
     await loadListings(1);
   }
 });
 
+setupFilters();
 paginateListings();
 loadListings(1);

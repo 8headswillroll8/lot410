@@ -2,13 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <link
       rel="icon"
       type="image/svg+xml"
       href="/lot410/assets/icons/gavel.svg"
     />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="../src/style.css" />
+
     <title>Lot410 | Profile</title>
   </head>
 
@@ -16,10 +20,10 @@
     <header></header>
 
     <main class="min-h-screen w-full">
-      <!-- Edit profile  -->
+      <!-- Edit profile -->
       <section
         id="profile-edit"
-        class="mx-auto max-w-250 mb-5 -translate-y-4 px-6 opacity-0 transition-all duration-300"
+        class="mx-auto mb-5 max-w-250 -translate-y-4 px-6 opacity-0 transition-all duration-300"
       ></section>
 
       <!-- Shared profile width -->
@@ -86,36 +90,24 @@
 
           <!-- Empty state -->
           <div
-            class="hidden items-start gap-2 mx-6 w-full max-w-250 md:mx-0"
             id="profile-empty-state"
+            class="mx-6 hidden w-full max-w-250 items-start gap-2 md:mx-0"
           >
             <img
-              id="profile-empty-state-icon"
               class="mt-1 w-7 md:mt-2"
               src="/lot410/assets/icons/wink.svg"
               alt=""
             />
-            <p id="profile-empty-state-text">
-              You haven't listed anything yet.
-            </p>
+
+            <p id="profile-empty-state-text"></p>
           </div>
 
-          <!-- listing -->
+          <!-- Listings -->
           <div id="profile-listings"></div>
         </section>
 
-        <!-- Alert messages -->
-        <div class="hidden items-start gap-2" id="profile-alert">
-          <img
-            id="profile-alert-icon"
-            class="mt-1 w-7 md:mt-2"
-            src="/lot410/assets/icons/awkward.svg"
-            alt=""
-          />
-          <p id="profile-alert-text">
-            Well, this is awkward. We couldn't load your profile. Try again.
-          </p>
-        </div>
+        <!-- Alert -->
+        <div id="profile-alert" class="hidden" aria-live="polite"></div>
       </div>
     </main>
 

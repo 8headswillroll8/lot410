@@ -6,6 +6,7 @@ import { bidOnListing, getSingleListing } from "../api/listings";
 import type { Listing } from "../types/listings";
 import { getProfile } from "../api/profile";
 import { getTimeAgo, timeLeft, sortBidsByHighest } from "../utils/listingUtils";
+import { showAlert } from "../components/alert";
 
 renderHeader();
 setupMobileMenu();
@@ -16,22 +17,13 @@ const singleListingEl = document.querySelector<HTMLElement>("#single-listing");
 const biddingActivityEl =
   document.querySelector<HTMLElement>("#bidding-activity");
 
-const listingAlert = document.querySelector<HTMLDivElement>("#listing-alert");
-
-const listingAlertText = document.querySelector<HTMLParagraphElement>(
-  "#listing-alert-text",
-);
+const listingAlert = document.querySelector<HTMLElement>("#listing-alert");
 
 const baseURL = import.meta.env.BASE_URL;
 const loggedIn = localStorage.getItem("accessToken");
 const isLoggedIn = Boolean(loggedIn);
 
-if (
-  !singleListingEl ||
-  !biddingActivityEl ||
-  !listingAlert ||
-  !listingAlertText
-) {
+if (!singleListingEl || !biddingActivityEl || !listingAlert) {
   throw new Error("Single listing element not found");
 }
 
@@ -192,7 +184,11 @@ function renderSingleListing(
                       `
                   }
 
-                  <p id="bid-alert" class="pt-4"></p>
+                  <div
+                    id="bid-alert"
+                    class="hidden pt-4"
+                    aria-live="polite"
+                  ></div>
                 </form>
               </div>
             `
@@ -236,32 +232,21 @@ try {
     throw new Error("id is missing");
   }
 
-  getSingleListing(id).then(async (data) => {
-    const listing = data.data;
+  const data = await getSingleListing(id);
+  const listing = data.data;
 
-    const username = localStorage.getItem("name");
-    const isOwnListing = listing.seller.name === username;
+  const username = localStorage.getItem("name");
+  const isOwnListing = listing.seller.name === username;
 
-    const hasEnded = new Date(listing.endsAt).getTime() <= Date.now();
+  const hasEnded = new Date(listing.endsAt).getTime() <= Date.now();
 
-    renderSingleListing(listing, isOwnListing, hasEnded);
-    renderBiddingActivity(listing);
+  renderSingleListing(listing, isOwnListing, hasEnded);
+  renderBiddingActivity(listing);
 
-    if (hasEnded) {
-      return;
-    }
-
-    if (!username) {
-      return;
-    }
-
-    if (isOwnListing) {
-      return;
-    }
-
+  if (!hasEnded && username && !isOwnListing) {
     const bidForm = document.querySelector<HTMLFormElement>("#bid-form");
     const listingBid = document.querySelector<HTMLInputElement>("#listing-bid");
-    const bidAlert = document.querySelector<HTMLParagraphElement>("#bid-alert");
+    const bidAlert = document.querySelector<HTMLElement>("#bid-alert");
 
     if (!bidForm || !bidAlert || !listingBid) {
       throw new Error("Could not find bid element");
@@ -280,16 +265,19 @@ try {
       const bidAmount = Number(listingBid.value);
 
       if (bidAmount === 0) {
+        bidAlert.classList.remove("hidden");
         bidAlert.textContent = "You'll need to bid something.";
         return;
       }
 
       if (bidAmount < minimumBid) {
+        bidAlert.classList.remove("hidden");
         bidAlert.textContent = "Someone's already gone higher.";
         return;
       }
 
       if (bidAmount > userCredits) {
+        bidAlert.classList.remove("hidden");
         bidAlert.textContent = "Your credits can't cover that one.";
         return;
       }
@@ -307,16 +295,22 @@ try {
         renderSingleListing(updatedListing, isOwnListing, hasEnded);
         renderBiddingActivity(updatedListing);
 
+        bidAlert.classList.remove("hidden");
         bidAlert.textContent = "Bid placed. Now we wait.";
       } catch (error) {
         console.error(error);
 
+        bidAlert.classList.remove("hidden");
         bidAlert.textContent = "That bid didn't make it through. Try again.";
       }
     });
-  });
-} catch {
-  listingAlert.classList.remove("hidden");
-  listingAlert.classList.add("flex");
-  listingAlertText.textContent = "Error message here";
+  }
+} catch (error) {
+  console.error(error);
+
+  showAlert(
+    listingAlert,
+    "error",
+    "Well, this is awkward. We couldn't load the listing. Try again.",
+  );
 }
