@@ -22,13 +22,18 @@ export function renderHeader() {
       </a>
 
       <!-- MOBILE CONTROLS -->
-      <div class="flex gap-6 md:hidden">
+      <div class="flex gap-6 lg:hidden">
         <!-- Logged in -->
         <div
           id="mobile-user-summary"
           class="auth-logged-in hidden items-center gap-1"
         >
-          <img class="w-4" src="${baseURL}assets/icons/coin-stack.svg" alt="" />
+          <img
+            class="w-4"
+            src="${baseURL}assets/icons/coin-stack.svg"
+            alt=""
+          />
+
           <p class="user-credit">0</p>
 
           <a href="${baseURL}profile/index.html">
@@ -48,12 +53,16 @@ export function renderHeader() {
           aria-expanded="false"
           aria-controls="mobile-menu"
         >
-          <img class="w-6" src="${baseURL}assets/icons/hamburger-menu.svg" alt="" />
+          <img
+            class="w-6"
+            src="${baseURL}assets/icons/hamburger-menu.svg"
+            alt=""
+          />
         </button>
       </div>
 
       <!-- DESKTOP NAVIGATION -->
-      <nav class="hidden md:block">
+      <nav class="hidden lg:block">
         <ul class="flex items-center gap-30 text-brand">
           <li>
             <a href="${baseURL}listings/index.html">Auctions</a>
@@ -65,14 +74,22 @@ export function renderHeader() {
           </li>
 
           <li class="auth-logged-in hidden">
-            <button type="button" class="underline-offset-6 hover:underline logout-btn">
+            <button
+              type="button"
+              class="logout-btn underline-offset-6 hover:underline"
+            >
               Log out
             </button>
           </li>
-          
+
           <li id="desktop-user-summary" class="auth-logged-in hidden">
             <div class="flex items-center gap-1">
-              <img class="w-4" src="${baseURL}assets/icons/coin-stack.svg" alt="" />
+              <img
+                class="w-4"
+                src="${baseURL}assets/icons/coin-stack.svg"
+                alt=""
+              />
+
               <p class="user-credit">0</p>
 
               <a href="${baseURL}profile/index.html">
@@ -84,7 +101,6 @@ export function renderHeader() {
               </a>
             </div>
           </li>
-
 
           <!-- Logged out -->
           <li id="desktop-login-link" class="auth-logged-out">
@@ -101,7 +117,7 @@ export function renderHeader() {
     <!-- MOBILE MENU OVERLAY -->
     <nav
       id="mobile-menu"
-      class="fixed inset-0 z-40 hidden bg-brand md:hidden"
+      class="fixed inset-0 z-40 hidden bg-brand lg:hidden"
       aria-label="Mobile navigation"
     >
       <div class="flex h-full flex-col p-6">
@@ -117,8 +133,16 @@ export function renderHeader() {
           </a>
 
           <!-- Close button -->
-          <button type="button" id="close-button" aria-label="Close menu">
-            <img class="w-6" src="${baseURL}assets/icons/x-white.svg" alt="" />
+          <button
+            type="button"
+            id="close-button"
+            aria-label="Close menu"
+          >
+            <img
+              class="w-6"
+              src="${baseURL}assets/icons/x-white.svg"
+              alt=""
+            />
           </button>
         </div>
 
@@ -138,7 +162,10 @@ export function renderHeader() {
           </li>
 
           <li class="auth-logged-in hidden">
-            <button type="button" class="underline-offset-6 hover:underline logout-btn">
+            <button
+              type="button"
+              class="logout-btn underline-offset-6 hover:underline"
+            >
               Log out
             </button>
           </li>
