@@ -1,10 +1,20 @@
 import { apiRequest } from "../api/client";
-import type { EditProfileParams } from "../types/listings";
+
+interface EditProfileParams {
+  avatar: {
+    url: string;
+    alt: string;
+  };
+  banner: {
+    url: string;
+    alt: string;
+  };
+}
 
 /**
- * Fetches profile data for a specific user.
+ * Retrieves a profile by name.
  *
- * @param name - Name of the profile to fetch.
+ * @param name - The profile name.
  * @returns The profile data from the API.
  */
 export async function getProfile(name: string) {
@@ -18,10 +28,10 @@ export async function getProfile(name: string) {
 }
 
 /**
- * Fetches auction listings created by a specific user.
+ * Retrieves listings created by a profile.
  *
- * @param name - Name of the profile whose listings to fetch.
- * @returns The user's listings from the API.
+ * @param name - The profile name.
+ * @returns The profile's listings from the API.
  */
 export async function getProfileListings(name: string) {
   return apiRequest(
@@ -34,10 +44,11 @@ export async function getProfileListings(name: string) {
 }
 
 /**
- * Fetches the bidding history for a specific user, including listing data.
+ * Retrieves all bids made by a profile,
+ * including the associated listing data.
  *
- * @param name - Name of the profile whose bidding history to fetch.
- * @returns The user's bidding history from the API.
+ * @param name - The profile name.
+ * @returns The profile's bidding history from the API.
  */
 export async function getBiddingHistory(name: string) {
   return apiRequest(
@@ -50,11 +61,11 @@ export async function getBiddingHistory(name: string) {
 }
 
 /**
- * Updates a user's profile.
+ * Updates a profile's avatar and banner.
  *
- * @param name - Name of the profile to update.
- * @param params - Updated profile data.
- * @returns The updated profile.
+ * @param name - The profile name.
+ * @param params - The profile data to update.
+ * @returns The updated profile data from the API.
  */
 export async function editProfile(name: string, params: EditProfileParams) {
   return apiRequest(
