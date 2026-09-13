@@ -20,23 +20,7 @@
     <header></header>
 
     <main class="min-h-screen w-full">
-      <!-- Alert messages -->
-      <div
-        class="hidden items-start gap-2"
-        id="listing-alert"
-        aria-live="polite"
-      >
-        <img
-          id="listing-icon"
-          class="mt-1 w-7 md:mt-2"
-          src="/lot410/assets/icons/awkward.svg"
-          alt=""
-        />
-
-        <p id="listing-alert-text">
-          Well, this is awkward. We couldn't load the listing. Try again.
-        </p>
-      </div>
+      <div id="listing-alert" class="hidden" aria-live="polite"></div>
 
       <article
         id="single-listing"
@@ -46,7 +30,6 @@
       <section id="bidding-activity" class="mb-15 text-center"></section>
     </main>
 
-    <!-- Footer -->
     <footer
       class="flex flex-col gap-12 px-6 py-6 text-brand xl:grid xl:min-h-80 xl:grid-cols-12 xl:gap-x-6"
     ></footer>

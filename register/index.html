@@ -2,13 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <link
       rel="icon"
       type="image/svg+xml"
       href="/lot410/assets/icons/gavel.svg"
     />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="../src/style.css" />
+
     <title>Lot410 | Register</title>
   </head>
 
@@ -26,7 +30,7 @@
           >
             <img class="w-6" src="/lot410/assets/icons/user.svg" alt="" />
 
-            <label for="register-username" class="sr-only">Username</label>
+            <label for="register-username" class="sr-only"> Username </label>
 
             <div class="flex-1">
               <input
@@ -46,7 +50,7 @@
           >
             <img class="w-6" src="/lot410/assets/icons/mail.svg" alt="" />
 
-            <label for="register-email" class="sr-only">Email</label>
+            <label for="register-email" class="sr-only"> Email </label>
 
             <div class="flex-1">
               <input
@@ -103,25 +107,18 @@
           </div>
 
           <button
+            type="submit"
             class="h-12.5 rounded-full bg-brand text-white hover:rounded-none"
             id="register-button"
           >
             Register
           </button>
 
-          <!-- validation messages -->
           <div
-            class="gap-2 justify-center items-start hidden"
             id="register-alert"
-          >
-            <img
-              id="register-icon"
-              class="w-7 mt-1 md:mt-2"
-              src="/lot410/assets/icons/alert-circle.svg"
-              alt=""
-            />
-            <p id="register-alert-text"></p>
-          </div>
+            class="hidden justify-center"
+            aria-live="polite"
+          ></div>
         </form>
       </div>
     </main>

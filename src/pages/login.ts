@@ -1,6 +1,7 @@
 import "../style.css";
 import { setupMobileMenu } from "../components/mobileMenu";
 import { renderHeader } from "../components/header";
+import { showAlert } from "../components/alert";
 import { login } from "../api/auth";
 
 renderHeader();
@@ -9,22 +10,15 @@ setupMobileMenu();
 const baseURL = import.meta.env.BASE_URL;
 
 const loginForm = document.querySelector<HTMLFormElement>("#login-form");
+
 const loginEmail = document.querySelector<HTMLInputElement>("#login-email");
+
 const loginPassword =
   document.querySelector<HTMLInputElement>("#login-password");
-const loginAlert = document.querySelector<HTMLDivElement>("#login-alert");
-const loginAlertText =
-  document.querySelector<HTMLParagraphElement>("#login-alert-text");
-const loginIcon = document.querySelector<HTMLImageElement>("#login-icon");
 
-if (
-  !loginForm ||
-  !loginEmail ||
-  !loginPassword ||
-  !loginAlert ||
-  !loginAlertText ||
-  !loginIcon
-) {
+const loginAlert = document.querySelector<HTMLElement>("#login-alert");
+
+if (!loginForm || !loginEmail || !loginPassword || !loginAlert) {
   throw new Error("Login form elements not found");
 }
 
@@ -35,24 +29,21 @@ loginForm.addEventListener("submit", async (event) => {
   const password = loginPassword.value.trim();
 
   if (email === "") {
-    loginAlert.classList.remove("hidden");
-    loginAlert.classList.add("flex");
-    loginAlertText.textContent = "We need your student email";
+    showAlert(loginAlert, "error", "We need your student email");
     return;
   }
 
   if (!email.endsWith("@stud.noroff.no")) {
-    loginAlert.classList.remove("hidden");
-    loginAlert.classList.add("flex");
-    loginAlertText.textContent =
-      "That doesn't look like a Noroff student email";
+    showAlert(
+      loginAlert,
+      "error",
+      "That doesn't look like a Noroff student email",
+    );
     return;
   }
 
   if (password === "") {
-    loginAlert.classList.remove("hidden");
-    loginAlert.classList.add("flex");
-    loginAlertText.textContent = "Your password is missing";
+    showAlert(loginAlert, "error", "Your password is missing");
     return;
   }
 
@@ -65,18 +56,12 @@ loginForm.addEventListener("submit", async (event) => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("name", name);
 
-    loginIcon.src = `${baseURL}assets/icons/smiley.svg`;
-    loginAlert.classList.remove("hidden");
-    loginAlert.classList.add("flex");
-    loginAlertText.textContent = "Welcome. Let the bidding begin.";
+    showAlert(loginAlert, "success", "Welcome. Let the bidding begin.");
 
     setTimeout(() => {
       window.location.href = `${baseURL}listings/index.html`;
     }, 1500);
   } catch {
-    loginIcon.src = `${baseURL}assets/icons/alert-circle.svg`;
-    loginAlert.classList.remove("hidden");
-    loginAlert.classList.add("flex");
-    loginAlertText.textContent = "Nope. Email or password isn't right.";
+    showAlert(loginAlert, "error", "Nope. Email or password isn't right.");
   }
 });

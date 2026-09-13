@@ -9,12 +9,14 @@ import {
   deleteListing,
 } from "../api/listings";
 import { renderConfirmationMessage } from "../components/confirmationMessage";
+import { showAlert } from "../components/alert";
 
 renderFooter();
 renderHeader();
 setupMobileMenu();
 
 const listingFormEl = document.querySelector<HTMLFormElement>(".listing-form");
+
 const title = document.querySelector<HTMLHeadingElement>(
   "#listing-form-heading",
 );
@@ -96,7 +98,7 @@ function renderListingForm() {
       />
     </div>
 
-    <!-- Buttons  -->
+    <!-- Buttons -->
     <div class="flex gap-3">
       <button
         id="delete-button"
@@ -105,6 +107,7 @@ function renderListingForm() {
       >
         Delete
       </button>
+
       <button
         class="flex-2 h-12 w-full rounded-full bg-brand text-white hover:rounded-none"
         type="submit"
@@ -120,22 +123,23 @@ renderListingForm();
 const listingTitle = document.querySelector<HTMLInputElement>(
   "#listing-form-title",
 );
+
 const listingImageUrl = document.querySelector<HTMLInputElement>(
   "#listing-form-image",
 );
+
 const listingImageAlt =
   document.querySelector<HTMLInputElement>("#listing-form-alt");
-const listingDescription = document.querySelector<HTMLInputElement>(
+
+const listingDescription = document.querySelector<HTMLTextAreaElement>(
   "#listing-form-description",
 );
+
 const listingEndsAt =
   document.querySelector<HTMLInputElement>("#listing-ends-at");
-const listingAlertContainer = document.querySelector<HTMLDivElement>(
-  "#listing-form-alert",
-);
-const listingAlert = document.querySelector<HTMLParagraphElement>(
-  "#listing-form-alert-text",
-);
+
+const listingAlert = document.querySelector<HTMLElement>("#listing-form-alert");
+
 const deleteBtn = document.querySelector<HTMLButtonElement>("#delete-button");
 
 if (
@@ -144,7 +148,6 @@ if (
   !listingImageAlt ||
   !listingDescription ||
   !listingEndsAt ||
-  !listingAlertContainer ||
   !listingAlert ||
   !deleteBtn
 ) {
@@ -165,6 +168,7 @@ if (listingId) {
 
 listingForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+
   const title = listingTitle.value.trim();
   const imageUrl = listingImageUrl.value.trim();
   const imageAlt = listingImageAlt.value.trim();
@@ -172,52 +176,48 @@ listingForm.addEventListener("submit", async (e) => {
   const endsAt = listingEndsAt.value.trim();
 
   if (!title) {
-    listingAlertContainer.classList.add("flex");
-    listingAlertContainer.classList.remove("hidden");
-    listingAlert.innerText = "Give your listing a name";
+    showAlert(listingAlert, "error", "Give your listing a name");
     return;
   }
 
   if (title.length > 50) {
-    listingAlertContainer.classList.add("flex");
-    listingAlertContainer.classList.remove("hidden");
-    listingAlert.innerText = "Keep your title under 50 characters";
+    showAlert(listingAlert, "error", "Keep your title under 50 characters");
     return;
   }
 
   try {
     new URL(imageUrl);
   } catch {
-    listingAlertContainer.classList.add("flex");
-    listingAlertContainer.classList.remove("hidden");
-    listingAlert.innerText = "That image URL looks a little off";
+    showAlert(listingAlert, "error", "That image URL looks a little off");
     return;
   }
 
   if (imageAlt.length > 125) {
-    listingAlertContainer.classList.add("flex");
-    listingAlertContainer.classList.remove("hidden");
-    listingAlert.innerText = "Keep your image description under 125 characters";
+    showAlert(
+      listingAlert,
+      "error",
+      "Keep your image description under 125 characters",
+    );
     return;
   }
 
   if (description.length > 280) {
-    listingAlertContainer.classList.add("flex");
-    listingAlertContainer.classList.remove("hidden");
-    listingAlert.innerText = "Keep your description under 280 characters";
+    showAlert(
+      listingAlert,
+      "error",
+      "Keep your description under 280 characters",
+    );
     return;
   }
 
   if (!endsAt) {
-    listingAlertContainer.classList.add("flex");
-    listingAlertContainer.classList.remove("hidden");
-    listingAlert.innerText = "When should the auction end?";
+    showAlert(listingAlert, "error", "When should the auction end?");
     return;
   }
 
   const editParams = {
-    title: title,
-    description: description,
+    title,
+    description,
     media: [
       {
         url: imageUrl,
@@ -227,15 +227,15 @@ listingForm.addEventListener("submit", async (e) => {
   };
 
   const createParams = {
-    title: title,
-    description: description,
+    title,
+    description,
     media: [
       {
         url: imageUrl,
         alt: imageAlt,
       },
     ],
-    endsAt: endsAt,
+    endsAt,
   };
 
   try {
@@ -247,12 +247,15 @@ listingForm.addEventListener("submit", async (e) => {
       const listingData = await createListing(createParams);
 
       const id = listingData.data.id;
+
       window.location.href = `../listing/index.html?id=${id}`;
     }
   } catch {
-    listingAlertContainer.classList.add("flex");
-    listingAlertContainer.classList.remove("hidden");
-    listingAlert.innerText = "Something went wrong. Give it another try";
+    showAlert(
+      listingAlert,
+      "error",
+      "Something went wrong. Give it another try",
+    );
   }
 });
 
@@ -266,6 +269,7 @@ deleteBtn.addEventListener("click", () => {
 
   const yesButton = document.querySelector<HTMLButtonElement>("#yes-btn");
   const noButton = document.querySelector<HTMLButtonElement>("#no-btn");
+
   const confirmationMessage = document.querySelector<HTMLDivElement>(
     "#confirmation-message",
   );
@@ -284,9 +288,11 @@ deleteBtn.addEventListener("click", () => {
 
       window.location.href = "../profile/index.html";
     } catch {
-      listingAlertContainer.classList.add("flex");
-      listingAlertContainer.classList.remove("hidden");
-      listingAlert.innerText = "Something went wrong. Give it another try";
+      showAlert(
+        listingAlert,
+        "error",
+        "Something went wrong. Give it another try",
+      );
     }
   });
 });
