@@ -6,12 +6,30 @@ export function renderFooter() {
     throw new Error("Footer element not found");
   }
 
+  const accessToken = localStorage.getItem("accessToken");
+  const isLoggedIn = Boolean(accessToken);
+
+  const authLinks = isLoggedIn
+    ? `
+      <a href="${baseURL}profile/index.html">Profile</a>
+      <button
+        id="footer-logout-button"
+        class="w-fit cursor-pointer text-left"
+        type="button"
+      >
+        Log out
+      </button>
+    `
+    : `
+      <a href="${baseURL}login/index.html">Log in</a>
+      <a href="${baseURL}register/index.html">Register</a>
+    `;
+
   footer.innerHTML = `
     <div class="flex flex-col gap-6 xl:col-span-2 xl:h-full xl:justify-between">
       <nav class="flex flex-col">
         <a href="${baseURL}listings/index.html">Auctions</a>
-        <a href="${baseURL}login/index.html">Log in</a>
-        <a href="${baseURL}register/index.html">Register</a>
+        ${authLinks}
         <a href="#">Terms</a>
       </nav>
 
@@ -43,4 +61,21 @@ export function renderFooter() {
       <p>© 2026 LOT410. All rights reserved.</p>
     </div>
   `;
+
+  if (isLoggedIn) {
+    const logoutButton = document.querySelector<HTMLButtonElement>(
+      "#footer-logout-button",
+    );
+
+    if (!logoutButton) {
+      throw new Error("Footer logout button not found");
+    }
+
+    logoutButton.addEventListener("click", () => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("name");
+
+      window.location.href = `${baseURL}login/index.html`;
+    });
+  }
 }
