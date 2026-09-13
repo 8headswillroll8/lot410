@@ -42,6 +42,7 @@ if (!searchForm || !searchInput) {
 }
 
 const grid = gridEl;
+const alert = listingsAlert;
 
 async function loadListings(page: number) {
   const data = await getListings(page);
@@ -88,7 +89,7 @@ function renderListings(listings: Listing[]) {
 
   if (listings.length === 0) {
     showAlert(
-      listingsAlert,
+      alert,
       "info",
       "Not a single lot in sight. Try searching for something else.",
     );
@@ -96,8 +97,8 @@ function renderListings(listings: Listing[]) {
     return;
   }
 
-  listingsAlert.classList.add("hidden");
-  listingsAlert.classList.remove("flex");
+  alert.classList.add("hidden");
+  alert.classList.remove("flex");
 
   listings.forEach((listing) => {
     const sortedBids = sortBidsByHighest(listing.bids);
